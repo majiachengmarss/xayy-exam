@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>西安音乐学院2026招聘笔试大题万能模板</title>
+    <style>
+        :root {
+            --bg: #f4efe5;
+            --bg-soft: #fbf7f0;
+            --surface: rgba(255, 252, 246, 0.92);
+            --surface-strong: #fffaf2;
+            --ink: #21312b;
+            --muted: #5d6b66;
+            --accent: #145c54;
+            --accent-soft: #d7ebe8;
+            --accent-deep: #0d433d;
+            --warm: #b65a3c;
+            --warm-soft: #f6dfd4;
+            --gold: #c99a4b;
+            --line: rgba(20, 92, 84, 0.12);
+            --shadow: 0 18px 50px rgba(33, 49, 43, 0.08);
+            --radius-lg: 24px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(201, 154, 75, 0.18), transparent 28%),
+                radial-gradient(circle at top right, rgba(20, 92, 84, 0.14), transparent 30%),
+                linear-gradient(180deg, #f7f3ea 0%, #f1eadf 100%);
+            line-height: 1.72;
+        }
+
+        body.memorize .support,
+        body.memorize .source-list,
+        body.memorize .footer-note {
+            display: none;
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        .app {
+            width: min(100%, 860px);
+            margin: 0 auto;
+            padding: 18px 14px 108px;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 28px 18px 22px;
+            border-radius: 28px;
+            background:
+                linear-gradient(135deg, rgba(20, 92, 84, 0.96), rgba(16, 51, 46, 0.92)),
+                linear-gradient(120deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
+            color: #fefcf7;
+            box-shadow: var(--shadow);
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 999px;
+            opacity: 0.14;
+            pointer-events: none;
+        }
+
+        .hero::before {
+            width: 240px;
+            height: 240px;
+            right: -80px;
+            top: -80px;
+            background: linear-gradient(135deg, #f3d8b4, transparent 70%);
+        }
+
+        .hero::after {
+            width: 180px;
+            height: 180px;
+            left: -70px;
+            bottom: -70px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 72%);
+        }
+
+        .eyebrow {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border: 1px solid rgba(255,255,255,0.24);
+            border-radius: 999px;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            position: relative;
+            z-index: 1;
+            margin-top: 14px;
+            font-family: "Source Han Serif SC", "Songti SC", "STSong", "Noto Serif SC", serif;
+            font-size: clamp(28px, 7vw, 40px);
+            line-height: 1.22;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .hero p {
+            position: relative;
+            z-index: 1;
+            margin-top: 12px;
+            font-size: 14px;
+            color: rgba(255, 252, 247, 0.88);
+        }
+
+        .hero-actions {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .button,
+        .copy-btn,
+        .mode-btn {
+            border: none;
+            border-radius: 999px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        .button,
+        .mode-btn {
+            padding: 10px 16px;
+        }
+
+        .button {
+            background: #f8efe2;
+            color: var(--accent-deep);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .mode-btn {
+            background: rgba(255,255,255,0.12);
+            color: #fff9f1;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .button:active,
+        .copy-btn:active,
+        .mode-btn:active {
+            transform: scale(0.98);
+        }
+
+        .meta-strip,
+        .chip-row,
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .meta-strip {
+            margin-top: 18px;
+        }
+
+        .meta-pill,
+        .mini-tag,
+        .nav-chip,
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border-radius: 999px;
+            font-size: 12px;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .meta-pill {
+            padding: 9px 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .quick-nav {
+            position: sticky;
+            top: 10px;
+            z-index: 12;
+            margin-top: 14px;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 18px;
+            background: rgba(255, 250, 242, 0.9);
+            border: 1px solid rgba(20, 92, 84, 0.1);
+            box-shadow: 0 12px 26px rgba(33, 49, 43, 0.08);
+            backdrop-filter: blur(16px);
+        }
+
+        .quick-nav .chip-row {
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            scrollbar-width: none;
+        }
+
+        .quick-nav .chip-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-chip {
+            padding: 10px 14px;
+            color: var(--accent);
+            text-decoration: none;
+            background: var(--accent-soft);
+            font-weight: 600;
+        }
+
+        .panel {
+            scroll-margin-top: 86px;
+            margin-top: 18px;
+            padding: 20px 16px;
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.45);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-title {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .panel-title h2 {
+            font-family: "Source Han Serif SC", "Songti SC", "STSong", "Noto Serif SC", serif;
+            font-size: 22px;
+            line-height: 1.3;
+            color: var(--accent-deep);
+        }
+
+        .score {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: var(--warm-soft);
+            color: var(--warm);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .lead {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .card {
+            position: relative;
+            padding: 16px 14px;
+            border-radius: var(--radius-md);
+            background: var(--surface-strong);
+            border: 1px solid var(--line);
+        }
+
+        .card h3 {
+            font-size: 18px;
+            color: var(--accent-deep);
+            margin-bottom: 10px;
+        }
+
+        .card h4 {
+            font-size: 15px;
+            color: var(--warm);
+            margin-bottom: 8px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 8px 12px;
+            background: rgba(20, 92, 84, 0.1);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .copy-btn.done {
+            background: rgba(182, 90, 60, 0.14);
+            color: var(--warm);
+        }
+
+        ul,
+        ol {
+            padding-left: 18px;
+        }
+
+        li + li {
+            margin-top: 8px;
+        }
+
+        .key-list li::marker,
+        .outline li::marker {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .outline strong,
+        .sentence strong,
+        .note strong,
+        .memory-line strong {
+            color: var(--accent-deep);
+        }
+
+        .note,
+        .memory-line,
+        .micro-template,
+        .sentence {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+        }
+
+        .note,
+        .memory-line {
+            background: rgba(20, 92, 84, 0.08);
+            border: 1px dashed rgba(20, 92, 84, 0.2);
+        }
+
+        .sentence {
+            background: rgba(201, 154, 75, 0.12);
+            border: 1px solid rgba(201, 154, 75, 0.22);
+        }
+
+        .micro-template {
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(252,247,238,0.98));
+            border: 1px solid rgba(182, 90, 60, 0.14);
+        }
+
+        .memory-line + .memory-line,
+        .sentence + .sentence,
+        .micro-template + .micro-template {
+            margin-top: 10px;
+        }
+
+        .tag {
+            padding: 7px 11px;
+            background: rgba(20, 92, 84, 0.08);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .mini-tag {
+            padding: 6px 10px;
+            background: rgba(182, 90, 60, 0.1);
+            color: var(--warm);
+            font-weight: 700;
+        }
+
+        .quote-box,
+        .essay-box {
+            margin-top: 14px;
+            padding: 16px 14px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(249,243,233,0.98));
+            border: 1px solid rgba(20, 92, 84, 0.14);
+        }
+
+        .essay-box p + p,
+        .quote-box p + p {
+            margin-top: 10px;
+        }
+
+        .music-highlight {
+            background: linear-gradient(180deg, rgba(182, 90, 60, 0.08), rgba(201, 154, 75, 0.08));
+            border: 1px solid rgba(182, 90, 60, 0.14);
+        }
+
+        .replace {
+            display: inline-block;
+            min-width: 68px;
+            margin: 0 4px;
+            padding: 0 3px 2px;
+            border-bottom: 1.5px dashed rgba(20, 92, 84, 0.35);
+            color: var(--accent-deep);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            z-index: 20;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            padding: 10px;
+            border-radius: 18px;
+            background: rgba(255, 250, 242, 0.96);
+            border: 1px solid rgba(20, 92, 84, 0.1);
+            box-shadow: 0 14px 30px rgba(33, 49, 43, 0.12);
+            backdrop-filter: blur(16px);
+        }
+
+        .bottom-nav a {
+            padding: 9px 8px;
+            border-radius: 12px;
+            text-decoration: none;
+            text-align: center;
+            background: rgba(20, 92, 84, 0.06);
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .footer {
+            margin-top: 18px;
+            padding: 18px 16px 26px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.65);
+            border: 1px solid rgba(20, 92, 84, 0.08);
+        }
+
+        .source-list {
+            margin-top: 12px;
+            padding-left: 18px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .footer-note {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 86px;
+            transform: translateX(-50%) translateY(16px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.22s ease;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(16, 51, 46, 0.92);
+            color: #fff9f1;
+            font-size: 13px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (min-width: 700px) {
+            .app {
+                padding: 22px 22px 118px;
+            }
+
+            .panel {
+                padding: 24px 20px;
+            }
+
+            .grid.two {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .grid.three {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .bottom-nav {
+                left: 50%;
+                right: auto;
+                width: min(100%, 720px);
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="hero" id="overview">
+            <div class="eyebrow">2026备考专用 · 大题高分版</div>
+            <h1>西安音乐学院招聘笔试<br>大题万能模板</h1>
+            <p>按你给出的2025真题方向扩展整理，重点覆盖辅导员、思政教育、教育学、公文写作，同时补入26年可能继续考的理论论述题和学生工作类题型。整页适配手机预览，可直接套用、背诵、默写。</p>
+            <div class="hero-actions">
+                <a class="button" href="#case">先看案例分析</a>
+                <a class="button" href="#writing">先看公文写作</a>
+                <button class="mode-btn" id="modeToggle" type="button">切换背诵模式</button>
+            </div>
+            <div class="meta-strip">
+                <span class="meta-pill">总分120分</span>
+                <span class="meta-pill">考试2小时</span>
+                <span class="meta-pill">案例分析10分 × 2</span>
+                <span class="meta-pill">公文写作20分</span>
+                <span class="meta-pill">手机阅读优化</span>
+            </div>
+        </header>
+
+        <nav class="quick-nav">
+            <div class="chip-row">
+                <a class="nav-chip" href="#overview">考情速抓</a>
+                <a class="nav-chip" href="#policy">理论母版</a>
+                <a class="nav-chip" href="#case">案例模板</a>
+                <a class="nav-chip" href="#sample">真题直套</a>
+                <a class="nav-chip" href="#writing">公文写作</a>
+            </div>
+        </nav>
+
+        <section class="panel">
+            <div class="panel-title">
+                <h2>拿分策略</h2>
+                <span class="score">先结构，后内容</span>
+            </div>
+            <p class="lead">这类高校招聘笔试，大题最怕“想到哪写到哪”。你可以把所有大题都压缩成同一逻辑：<strong>表态定性 + 理论依据 + 分点措施 + 长效机制 + 总结升华</strong>。哪怕遇到陌生题，只要先把结构立住，分数就不会难看。</p>
+            <div class="grid two">
+                <div class="card">
+                    <h3>考场时间建议</h3>
+                    <ul class="key-list">
+                        <li>单选 40 分钟，先快后稳，优先排除法。</li>
+                        <li>多选 20 分钟，宁可慢一点，防止漏项和错选。</li>
+                        <li>案例分析 30 分钟，每题控制在 15 分钟左右。</li>
+                        <li>公文写作 25 分钟，先列 5 段式提纲再成文。</li>
+                        <li>最后留 5 分钟检查答题卡和大题分点是否完整。</li>
+                    </ul>
+                </div>
+                <div class="card music-highlight">
+                    <h3>音乐学院作答加分点</h3>
+                    <div class="tag-row">
+                        <span class="tag">以人民为中心</span>
+                        <span class="tag">美育浸润</span>
+                        <span class="tag">红色经典</span>
+                        <span class="tag">文化自信</span>
+                        <span class="tag">艺术实践育人</span>
+                    </div>
+                    <div class="memory-line">
+                        <strong>可直接加在答案里：</strong>艺术院校开展思想政治教育、爱国主义教育和课程思政，要善于把红色音乐作品、校史院史、民族音乐文化资源、舞台实践和社会美育服务转化为育人资源，让学生在审美体验和艺术实践中厚植家国情怀。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel" id="policy">
+            <div class="panel-title">
+                <h2>官方口径速记</h2>
+                <span class="score">高频选择题 + 大题理论底座</span>
+            </div>
+            <p class="lead support">这一块建议当作“万能理论仓库”背。写大题时，你只要把题目往这些关键词上靠，论述就会显得更稳、更像体制内标准答案。</p>
+            <div class="grid two">
+                <article class="card">
+                    <h3>文艺工作座谈会高频点</h3>
+                    <ul class="outline">
+                        <li>坚持<strong>以人民为中心</strong>的创作导向。</li>
+                        <li>努力创作更多<strong>无愧于时代的优秀作品</strong>。</li>
+                        <li>社会主义文艺从本质上讲，就是<strong>人民的文艺</strong>。</li>
+                        <li>把<strong>社会效益放在首位</strong>，实现社会效益和经济效益相统一。</li>
+                        <li>文艺不能当市场的奴隶，不能沾满铜臭气。</li>
+                        <li>高扬社会主义核心价值观旗帜，传承中华优秀传统文化，文艺工作者要<strong>德艺双馨</strong>。</li>
+                    </ul>
+                    <div class="sentence">
+                        <strong>套用句：</strong>对于艺术院校而言，落实文艺工作座谈会精神，关键在于坚持以人民为中心的创作与育人导向，把价值引领、专业训练和社会服务统一起来，引导学生创作有筋骨、有道德、有温度的文艺作品。
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>教育家精神六个方面</h3>
+                    <ul class="outline">
+                        <li><strong>心有大我、至诚报国</strong>的理想信念。</li>
+                        <li><strong>言为士则、行为世范</strong>的道德情操。</li>
+                        <li><strong>启智润心、因材施教</strong>的育人智慧。</li>
+                        <li><strong>勤学笃行、求是创新</strong>的躬耕态度。</li>
+                        <li><strong>乐教爱生、甘于奉献</strong>的仁爱之心。</li>
+                        <li><strong>胸怀天下、以文化人</strong>的弘道追求。</li>
+                    </ul>
+                    <div class="note">
+                        <strong>易错提醒：</strong>这六句话不要和“思政课教师六要”混写。考试里一旦问“教育家精神”，就优先默写这六个并结合教师职业使命展开。
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>课程思政核心表达</h3>
+                    <ul class="outline">
+                        <li>落实<strong>立德树人</strong>根本任务。</li>
+                        <li>把思想政治教育<strong>贯穿人才培养体系</strong>。</li>
+                        <li>把<strong>价值塑造、知识传授、能力培养</strong>融为一体。</li>
+                        <li>使各类课程与思想政治理论课<strong>同向同行</strong>，形成协同效应。</li>
+                        <li>不是“课程加思政”，而是深挖课程本身蕴含的育人元素。</li>
+                    </ul>
+                    <div class="sentence">
+                        <strong>套用句：</strong>推进课程思政，要坚持知识传授和价值引领同频共振，把思想政治教育自然融入课堂教学、实践环节和评价体系，实现润物无声的育人效果。
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>辅导员工作职责九项</h3>
+                    <ul class="outline">
+                        <li>思想理论教育和价值引领。</li>
+                        <li>党团和班级建设。</li>
+                        <li>学风建设。</li>
+                        <li>学生日常事务管理。</li>
+                        <li>心理健康教育与咨询工作。</li>
+                        <li>网络思想政治教育。</li>
+                        <li>校园危机事件应对。</li>
+                        <li>职业规划与就业创业指导。</li>
+                        <li>理论和实践研究。</li>
+                    </ul>
+                    <div class="note">
+                        <strong>大题通用原则：</strong>辅导员答题时常用“教育、管理、服务、引导”四位一体，把解决思想问题与解决实际问题结合起来。
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>师德师风高频表达</h3>
+                    <ul class="outline">
+                        <li>做<strong>有理想信念、有道德情操、有扎实学识、有仁爱之心</strong>的“四有”好老师。</li>
+                        <li>做学生锤炼品格、学习知识、创新思维、奉献祖国的<strong>引路人</strong>。</li>
+                        <li>坚持<strong>教书和育人相统一、言传和身教相统一、潜心问道和关注社会相统一、学术自由和学术规范相统一</strong>。</li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3>教育学心理学常用点</h3>
+                    <ul class="outline">
+                        <li>马斯洛需求层次可解释学生对安全、归属、尊重的现实诉求。</li>
+                        <li>维果茨基最近发展区强调适度支持与循序引导。</li>
+                        <li>班杜拉自我效能感提醒我们用成功体验和榜样示范增强学生信心。</li>
+                        <li>高等教育坚持人才培养、科学研究、社会服务、文化传承创新等功能统一。</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-title">
+                <h2>论述题万能母版</h2>
+                <span class="score">适用讲话精神、思政、师德、辅导员建设类</span>
+            </div>
+            <p class="lead support">如果26年出现“谈认识”“谈理解”“如何推进”“如何加强”这类大题，直接从下面两套母版里套。先写框架，再填主题关键词。</p>
+            <div class="grid two">
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="essayMaster">复制母版</button>
+                    <div id="essayMaster">
+                        <h3>母版一：讲话精神/课程思政/师德建设类</h3>
+                        <ol class="outline">
+                            <li><strong>开头定性：</strong>题目所涉内容，本质上是新时代高校落实立德树人根本任务、培养担当民族复兴大任时代新人的具体要求，具有鲜明的政治性、时代性和育人性。</li>
+                            <li><strong>理论依据：</strong>可挂靠“立德树人”“以学生为中心”“三全育人”“课程思政同向同行”“教育家精神”“四有好老师”等关键词。</li>
+                            <li><strong>主体措施：</strong>一般写 4 点最稳。
+                                <ul>
+                                    <li>一是提高政治站位，强化理论武装。</li>
+                                    <li>二是融入教育教学和日常管理，做到入脑入心。</li>
+                                    <li>三是创新载体和方法，增强针对性与吸引力。</li>
+                                    <li>四是完善机制和评价，推动常态化长效化。</li>
+                                </ul>
+                            </li>
+                            <li><strong>结尾升华：</strong>把个人成长与国家发展、学校发展、专业使命统一起来，最终落到“培养德智体美劳全面发展的社会主义建设者和接班人”。</li>
+                        </ol>
+                        <div class="sentence">
+                            <strong>可直接默写的开头：</strong>我认为，题目所强调的并不是某一项孤立工作，而是新时代高校坚持社会主义办学方向、全面落实立德树人根本任务的系统工程。只有坚持价值引领、问题导向和机制保障相统一，才能把相关要求真正转化为育人实效。
+                        </div>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="studentMaster">复制母版</button>
+                    <div id="studentMaster">
+                        <h3>母版二：辅导员工作/学生管理服务类</h3>
+                        <ol class="outline">
+                            <li><strong>先表态：</strong>坚持以学生为中心，坚持教育与管理相结合、服务与引导相结合。</li>
+                            <li><strong>再定性：</strong>这既是一个管理问题，更是一个育人问题；既要解决现实困难，也要回应思想困惑。</li>
+                            <li><strong>再措施：</strong>
+                                <ul>
+                                    <li>第一，第一时间了解情况，摸清底数，稳定情绪。</li>
+                                    <li>第二，联合相关部门研判原因，做到分类施策。</li>
+                                    <li>第三，做好思想政治教育、心理疏导和规则教育。</li>
+                                    <li>第四，发挥班团骨干、宿舍长、心理委员、学生党员等朋辈力量。</li>
+                                    <li>第五，建立台账、跟踪回访、完善制度，形成长效机制。</li>
+                                </ul>
+                            </li>
+                            <li><strong>最后升华：</strong>真正把问题解决在萌芽、矛盾化解在基层、教育落实在日常。</li>
+                        </ol>
+                        <div class="sentence">
+                            <strong>可直接默写的过渡句：</strong>在具体工作中，我会坚持“先共情、后核实、再解决、再教育、再巩固”的思路，既回应学生合理诉求，又强化规则意识和集体意识，促进学生健康成长。
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="grid two">
+                <article class="card">
+                    <h3>万能开头句群</h3>
+                    <div class="micro-template">题目所反映的，是新时代高校落实立德树人根本任务中的一个具体切口，必须从政治高度、育人维度和治理角度统筹推进。</div>
+                    <div class="micro-template">作为高校教育工作者，面对这一问题，既要有鲜明立场，也要有务实举措，做到提高认识、压实责任、创新载体、注重实效。</div>
+                    <div class="micro-template">我认为，处理此类问题应坚持以学生为中心、坚持问题导向、坚持依法依规、坚持教育引导与解决实际问题相结合。</div>
+                </article>
+                <article class="card">
+                    <h3>万能结尾句群</h3>
+                    <div class="micro-template">总之，要把这项工作融入日常、抓在经常、落在平常，推动形成全员全过程全方位育人格局。</div>
+                    <div class="micro-template">通过系统施策、协同联动和机制建设，切实把制度优势、组织优势转化为育人效能和治理效能。</div>
+                    <div class="micro-template">最终目标，是让学生在解决现实问题的同时，坚定理想信念、增强责任担当、实现全面发展。</div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel" id="case">
+            <div class="panel-title">
+                <h2>案例分析万能模板</h2>
+                <span class="score">10分题稳拿结构分</span>
+            </div>
+            <p class="lead">案例分析最稳定的答法就是“六步法”。你可以把它当成固定模板，几乎所有学生工作类题目都能套。</p>
+            <div class="grid two">
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="caseMaster">复制六步法</button>
+                    <div id="caseMaster">
+                        <h3>六步法总模板</h3>
+                        <ol class="outline">
+                            <li><strong>问题定性：</strong>明确这是思想教育问题、学生事务问题、心理适应问题，还是校园安全稳定问题。</li>
+                            <li><strong>原则表态：</strong>坚持以学生为中心、依法依规、教育管理服务并重、预防与处置并重。</li>
+                            <li><strong>立即处置：</strong>第一时间了解情况、稳定情绪、掌握事实、控制风险。</li>
+                            <li><strong>分类解决：</strong>对合理诉求及时协调解决；对误解偏差加强解释引导；对违规行为坚持原则、规范处理。</li>
+                            <li><strong>教育引导：</strong>开展谈心谈话、规则教育、价值引领、心理疏导和朋辈支持。</li>
+                            <li><strong>长效机制：</strong>建立台账、回访复盘、完善制度、源头治理，防止问题反复。</li>
+                        </ol>
+                        <div class="sentence">
+                            <strong>万能总结句：</strong>这样既能及时化解个案风险，也能通过制度完善和教育引导，把问题解决在早、化解在小，维护校园安全稳定和学生健康成长。
+                        </div>
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>写案例时一定要露出的词</h3>
+                    <div class="tag-row">
+                        <span class="tag">第一时间</span>
+                        <span class="tag">摸清情况</span>
+                        <span class="tag">分类施策</span>
+                        <span class="tag">协同联动</span>
+                        <span class="tag">教育引导</span>
+                        <span class="tag">建立台账</span>
+                        <span class="tag">跟踪回访</span>
+                        <span class="tag">长效机制</span>
+                    </div>
+                    <div class="note">
+                        <strong>拿分提醒：</strong>不要只写“我会关心学生、帮助学生”。要写出动作和路径，比如“实地查看”“联系后勤”“召开班会”“一人一策”“联合家长”“启动预案”。
+                    </div>
+                </article>
+            </div>
+
+            <div class="grid two">
+                <article class="card">
+                    <h3>题型一：宿舍条件差、作息冲突、环境不安静</h3>
+                    <ul class="outline">
+                        <li>先把它定性为<strong>新生适应教育 + 学生日常事务管理 + 宿舍文明建设</strong>问题。</li>
+                        <li>第一时间深入宿舍，面对面倾听诉求，防止情绪扩散和网络发酵。</li>
+                        <li>联合后勤、宿管、保卫核查设施、噪音来源、作息矛盾、人员因素。</li>
+                        <li>分类处理：设施问题抓维修，作息问题抓公约，特殊困难按制度申请调宿。</li>
+                        <li>组织宿舍成员沟通，明确安静时段、值日安排、文明公约。</li>
+                        <li>加强新生适应教育，帮助学生建立合理预期和集体生活意识。</li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3>题型二：爱国主义教育、国家认同、民族自豪感</h3>
+                    <ul class="outline">
+                        <li>以理想信念教育为核心，把爱国主义教育融入日常思政工作。</li>
+                        <li>讲清党史、新中国史、改革开放史、社会主义发展史，增强历史自觉。</li>
+                        <li>用好国庆、国家公祭日、重要纪念日等时间节点开展主题教育。</li>
+                        <li>依托校史馆、红色基地、社会实践、志愿服务增强沉浸式体验。</li>
+                        <li>发挥新媒体和网络平台作用，讲好中国故事、校园故事、专业报国故事。</li>
+                        <li>对艺术院校可加入红色音乐作品展演、民族音乐展演、美育志愿服务等特色载体。</li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3>题型三：心理危机、情绪失控、学生明显异常</h3>
+                    <ul class="outline">
+                        <li>坚持生命至上、安全第一，迅速识别风险等级。</li>
+                        <li>第一时间陪伴学生，稳定情绪，必要时联系校医院、心理中心、保卫处。</li>
+                        <li>严格落实报告制度，重大风险不单独处置、不迟报瞒报漏报。</li>
+                        <li>与家长及时沟通，形成家校协同支持网络。</li>
+                        <li>后续做好复课复学、同伴支持和持续回访。</li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3>题型四：学风松散、违纪、学术诚信问题</h3>
+                    <ul class="outline">
+                        <li>把问题定性为学风建设和诚信教育问题。</li>
+                        <li>坚持教育在先、惩戒在后、程序规范、证据充分。</li>
+                        <li>开展学业帮扶、考风考纪教育、学术规范培训和警示案例教育。</li>
+                        <li>发挥班团组织和学生骨干带动作用，营造勤学、笃实、诚信氛围。</li>
+                        <li>建立过程监督、导师指导和分类帮扶机制。</li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3>题型五：网络舆情、突发事件、群体情绪</h3>
+                    <ul class="outline">
+                        <li>第一时间核实真伪，迅速报告，避免“信息真空”。</li>
+                        <li>坚持正面回应学生关切，稳定情绪，防止谣言扩散。</li>
+                        <li>联合宣传、保卫、学院等部门统一口径，做好信息发布。</li>
+                        <li>把危机应对和思想教育结合起来，既处置事情，也教育学生。</li>
+                        <li>事后复盘，完善应急预案和舆情监测机制。</li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3>题型六：就业困难学生帮扶、职业规划指导</h3>
+                    <ul class="outline">
+                        <li>树立“就业育人”理念，引导学生树立正确就业观、择业观、成才观。</li>
+                        <li>建立就业困难群体台账，做到一人一档、一人一策。</li>
+                        <li>通过简历诊断、模拟面试、岗位推荐、校友帮扶提升实效。</li>
+                        <li>鼓励基层就业、参军入伍、西部计划、创新创业等多元路径。</li>
+                        <li>对艺术类学生可补充演艺机构、文化传媒、社会美育、数字文旅等行业渠道。</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel" id="sample">
+            <div class="panel-title">
+                <h2>2025真题直套版</h2>
+                <span class="score">背这几段，考场能直接写</span>
+            </div>
+            <div class="grid">
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="dormAnswer">复制宿舍题答案</button>
+                    <div id="dormAnswer">
+                        <h3>真题一：新生反映宿舍条件差、情绪不满，要求换宿舍或保证安静</h3>
+                        <div class="quote-box">
+                            <p><strong>答题起手：</strong>面对新生入学后对宿舍条件和生活环境的不满，辅导员首先要高度重视。这个问题表面上是住宿条件问题，实质上还涉及新生入学适应、学生权益保障、日常事务管理和宿舍育人工作。我会坚持以学生为中心，按照“先安抚情绪、再调查核实、再分类解决、再教育引导、再建立机制”的思路妥善处理。</p>
+                            <p><strong>第一，及时回应诉求，稳定学生情绪。</strong>我会第一时间深入学生宿舍或召开小范围座谈，认真倾听学生反映的具体问题，包括设施老化、卫生条件、夜间噪音、作息冲突等，让学生感受到学校和辅导员对其合理诉求的重视，避免不满情绪累积发酵。</p>
+                            <p><strong>第二，实地调查核实，准确掌握情况。</strong>我会联合宿舍管理员、后勤部门实地查看宿舍环境，了解是否存在硬件损坏、卫生不到位、隔音差等客观问题；同时与宿舍成员分别沟通，判断是否存在生活习惯差异、作息不一致、沟通不畅等主观矛盾，做到情况清、底数明。</p>
+                            <p><strong>第三，坚持分类施策，解决实际问题。</strong>对于设施和环境问题，及时联系后勤维修、保洁整改，能立行立改的尽快处理；对于夜间喧哗、作息冲突等问题，组织宿舍成员协商制定文明公约，明确休息时段和相处规则；对于确因特殊原因需要调整宿舍的学生，在符合学校制度的前提下，按程序帮助申请调宿；对于暂时无法立即解决的问题，要耐心解释、明确时间表，争取学生理解。</p>
+                            <p><strong>第四，加强教育引导，提升适应能力。</strong>新生初入大学，容易因现实落差和独立生活压力产生不适应。我会结合新生入学教育，加强规则意识、集体意识和适应教育，引导学生学会包容合作、理性表达诉求、依法依规维护权益。同时发挥宿舍长、班干部和优秀高年级学生作用，做好朋辈帮扶和经验分享。</p>
+                            <p><strong>第五，健全长效机制，提升宿舍育人实效。</strong>后续我会建立宿舍问题台账和回访机制，定期走访新生宿舍，做到早发现、早介入、早解决；同时加强宿舍文明建设和宿舍文化活动，推动宿舍从“住宿空间”转变为“育人阵地”。</p>
+                            <p><strong>总结升华：</strong>总之，处理这类问题不能只停留在“换不换宿舍”层面，而要把解决现实困难与加强教育引导结合起来，真正帮助新生顺利完成大学适应，维护和谐稳定的宿舍环境。</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="patriotAnswer">复制爱国主义题答案</button>
+                    <div id="patriotAnswer">
+                        <h3>真题二：新时代背景下，辅导员如何加强爱国主义教育</h3>
+                        <div class="quote-box">
+                            <p><strong>答题起手：</strong>爱国主义是中华民族精神的核心，是高校思想政治教育的重要内容。新时代加强大学生爱国主义教育，既是落实立德树人根本任务的必然要求，也是培养担当民族复兴大任时代新人的现实需要。辅导员处在大学生思想政治教育一线，应当把爱国主义教育贯穿学生成长全过程。</p>
+                            <p><strong>第一，坚持理论武装，夯实思想根基。</strong>要把爱国主义教育与习近平新时代中国特色社会主义思想学习教育结合起来，与党史、新中国史、改革开放史、社会主义发展史教育结合起来，引导学生深刻认识中国特色社会主义道路、理论、制度、文化的优势，增强国家认同、民族认同和文化认同。</p>
+                            <p><strong>第二，融入日常教育，做到入脑入心。</strong>辅导员要通过主题班会、党团活动、年级大会、形势政策教育等载体，把爱国主义教育融入日常、抓在经常。既要讲国家发展的辉煌成就，也要引导学生正确看待风险挑战，增强责任感和使命感。</p>
+                            <p><strong>第三，强化实践育人，增强情感认同。</strong>可组织学生参观爱国主义教育基地、校史馆、博物馆、纪念馆，开展社会实践、志愿服务和国情考察，在实践中感受国家发展变化，把理性认知转化为情感认同和行动自觉。</p>
+                            <p><strong>第四，创新传播方式，提升教育吸引力。</strong>要善用新媒体平台，制作短视频、微宣讲、网络专题，讲好中国故事、时代故事、青年故事。对艺术院校而言，还可以依托红色音乐作品、民族音乐资源、主题展演和社会美育活动，把爱国主义教育、美育教育和专业实践结合起来。</p>
+                            <p><strong>第五，发挥榜样示范和朋辈引领作用。</strong>通过邀请优秀校友、先进典型、基层奉献代表开展分享，引导学生把个人理想与国家需要结合起来，树立“请党放心、强国有我”的责任担当。</p>
+                            <p><strong>总结升华：</strong>总之，爱国主义教育不能停留在口号层面，而要做到理论教育有深度、实践活动有温度、网络传播有力度、专业融合有特色，真正引导学生把爱国之情转化为报国之志和强国之行。</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel" id="writing">
+            <div class="panel-title">
+                <h2>公文写作万能模板</h2>
+                <span class="score">20分题要写出“体制感”</span>
+            </div>
+            <p class="lead support">你给的真题是发言稿，但26年也可能考通知、倡议书、活动方案、汇报材料。下面先给发言稿主模板，再补几个常考格式的速套版。</p>
+            <div class="grid two">
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="speechFrame">复制发言稿框架</button>
+                    <div id="speechFrame">
+                        <h3>发言稿万能五段式</h3>
+                        <ol class="outline">
+                            <li><strong>称呼和问候：</strong>尊敬的各位领导、老师，亲爱的同学们，大家好。</li>
+                            <li><strong>开头点题：</strong>交代身份、场合、感谢和发言主题。</li>
+                            <li><strong>主体第一层：</strong>写背景意义或形势判断，说明“为什么重要”。</li>
+                            <li><strong>主体第二层：</strong>分 3 至 4 点写工作做法或经验体会，标题最好整齐，如“强化引领、搭建平台、优化服务、精准帮扶”。</li>
+                            <li><strong>结尾：</strong>写下一步打算、发出倡议、表达祝愿。</li>
+                        </ol>
+                        <div class="memory-line">
+                            <strong>稳妥结构：</strong>开头 1 段 + 形势 1 段 + 做法 3 到 4 段 + 结尾 1 段。600字以上时，直接按 6 段写最稳。
+                        </div>
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>公文高频套话</h3>
+                    <div class="micro-template">始终坚持把<span class="replace">某项工作</span>摆在突出位置，统筹谋划、系统推进、精准施策。</div>
+                    <div class="micro-template">围绕学生所需、学校所能、社会所向，着力构建<span class="replace">某项工作</span>新格局。</div>
+                    <div class="micro-template">聚焦重点、破解难点、打造亮点，不断提升工作的针对性、精准性和实效性。</div>
+                    <div class="micro-template">下一步，我们将继续压实责任、创新举措、完善机制，推动各项任务落地见效。</div>
+                </article>
+                <article class="card">
+                    <h3>通知速套版</h3>
+                    <ul class="outline">
+                        <li>标题：关于开展<span class="replace">某活动</span>的通知。</li>
+                        <li>主送对象：各学院、各部门。</li>
+                        <li>正文通常写 4 点：活动目的、时间地点、参与对象、有关要求。</li>
+                        <li>结尾常用：请各单位高度重视，认真组织实施。</li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3>倡议书/活动方案速套版</h3>
+                    <ul class="outline">
+                        <li><strong>倡议书：</strong>写背景意义 + 3到4条倡议 + 号召结尾。</li>
+                        <li><strong>活动方案：</strong>写指导思想、活动主题、时间地点、活动内容、组织保障、工作要求。</li>
+                        <li>这类题最重要的是格式完整、层次分明、要求具体。</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-title">
+                <h2>2025真题发言稿范文</h2>
+                <span class="score">600字以上，可直接改写</span>
+            </div>
+            <article class="card">
+                <button class="copy-btn" type="button" data-copy="speechSample">复制整篇范文</button>
+                <div id="speechSample" class="essay-box">
+                    <p>尊敬的各位领导、各位老师，亲爱的同学们：</p>
+                    <p>大家好！很高兴参加学校组织的就业创业交流活动。作为高校教职工，能够围绕毕业生就业创业这一关系学生成长、家庭幸福和学校发展的重要工作与大家交流，我感到十分荣幸。借此机会，我想结合工作实际，围绕“如何进一步做好高校就业创业工作”谈几点认识和体会。</p>
+                    <p>就业是最大的民生，高校毕业生就业创业工作既关系千家万户切身利益，也关系学校人才培养质量和服务社会能力。当前，随着经济社会发展和产业结构调整，就业形势呈现出新情况、新特点。一方面，毕业生规模持续扩大，就业竞争更加激烈；另一方面，新产业、新业态、新模式不断涌现，也为青年成长成才提供了更加广阔的舞台。面对新形势，我们既要看到压力，更要坚定信心，坚持把就业创业工作摆在突出位置，努力帮助学生实现更充分、更高质量就业。</p>
+                    <p>第一，坚持价值引领，帮助学生树立正确就业观。就业创业工作，首先是育人工作。我们要把就业教育与理想信念教育、专业教育、成长教育结合起来，引导学生正确认识个人理想与国家需要、个人发展与社会需求之间的关系，鼓励学生把小我融入大我，到基层去、到一线去、到祖国最需要的地方去建功立业。特别是对青年学生而言，只有把职业选择与时代使命统一起来，才能更好实现人生价值。</p>
+                    <p>第二，坚持精准服务，不断提升就业指导实效。要围绕学生求职过程中的痛点难点，做细做实分类指导。比如，针对毕业生普遍关心的简历制作、面试技巧、岗位匹配等问题，可以通过就业讲座、简历诊断、模拟面试、职业咨询等方式，帮助学生提高求职能力。对于考研、考公、基层就业、自主创业等不同发展路径，也要加强个性化辅导，做到因人施策、因材施教，让每一名学生都能找到适合自己的发展方向。</p>
+                    <p>第三，坚持拓宽渠道，积极搭建就业创业平台。学校要主动加强与地方政府、行业企业、校友组织、用人单位的联系，持续拓展优质岗位资源，完善校园招聘、专场宣讲、实习实践、校企合作等平台建设。对有创业意愿的学生，要加强创新创业教育，提供项目孵化、导师指导、政策咨询、资源对接等支持，帮助学生在创新实践中提升能力、增长才干。对于艺术类、应用类专业学生，还可以结合行业特点，加强与文化传媒、演艺机构、文旅企业、社会教育机构等单位合作，拓宽就业创业新空间。</p>
+                    <p>第四，坚持重点帮扶，兜牢就业工作底线。对家庭经济困难、就业困难、心理压力较大的学生，要建立帮扶台账，落实“一人一档、一人一策”，做到重点关注、重点指导、重点推荐。辅导员、班主任、专任教师要协同发力，在思想上关心、在能力上提升、在资源上支持，帮助学生增强信心、缓解焦虑、尽快落实去向，真正把就业服务做到学生心坎上。</p>
+                    <p>下一步，我们要继续坚持问题导向和结果导向，进一步完善就业创业工作机制，强化责任落实，优化服务体系，提升指导质量，形成全员参与、全过程融入、全方位支持的工作格局。我相信，只要我们始终坚持以学生为中心，以更加务实的作风、更加有力的举措推进就业创业工作，就一定能够帮助更多青年学生在奋斗中成就梦想、在担当中书写精彩人生。</p>
+                    <p>最后，预祝本次交流活动取得圆满成功，祝各位领导、老师工作顺利，祝同学们前程似锦。谢谢大家！</p>
+                </div>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-title">
+                <h2>最后背诵建议</h2>
+                <span class="score">考前30分钟看这里</span>
+            </div>
+            <div class="grid two">
+                <article class="card">
+                    <h3>至少背住的四套</h3>
+                    <ul class="outline">
+                        <li>讲话精神/课程思政类万能母版。</li>
+                        <li>辅导员学生工作类万能母版。</li>
+                        <li>案例分析六步法。</li>
+                        <li>发言稿万能五段式。</li>
+                    </ul>
+                    <div class="note">
+                        <strong>实操建议：</strong>不是全篇死背，而是背“开头句 + 四个分点标题 + 结尾句”。考场上换关键词即可。
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>最稳的分点标题模板</h3>
+                    <div class="micro-template">一是提高站位，强化认识。</div>
+                    <div class="micro-template">二是摸清情况，精准研判。</div>
+                    <div class="micro-template">三是分类施策，务求实效。</div>
+                    <div class="micro-template">四是协同联动，凝聚合力。</div>
+                    <div class="micro-template">五是健全机制，巩固提升。</div>
+                </article>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <h3>口径校对参考</h3>
+            <p class="footer-note">页面中的“教育家精神”“课程思政”“文艺工作座谈会”“辅导员职责”等关键词，我按官方发布口径做了核对和修正，下面是本次整理时参考的主要来源。</p>
+            <ol class="source-list">
+                <li><a href="https://www.moe.gov.cn/jyb_xwfb/xw_zt/moe_357/2023/2023_zt14/mtbd/202310/t20231010_1084836.html" target="_blank" rel="noreferrer">教育部：弘扬教育家精神 勇担新时代使命</a></li>
+                <li><a href="https://www.moe.gov.cn/srcsite/A08/s7056/202006/t20200603_462437.html" target="_blank" rel="noreferrer">教育部：高等学校课程思政建设指导纲要</a></li>
+                <li><a href="https://cpc.people.com.cn/n1/2024/1016/c64094-40340262.html" target="_blank" rel="noreferrer">中国共产党新闻网：在文艺工作座谈会上的讲话</a></li>
+                <li><a href="https://www.gov.cn/gongbao/content/2017/content_5243956.htm" target="_blank" rel="noreferrer">中国政府网：普通高等学校辅导员队伍建设规定</a></li>
+                <li><a href="https://hudong.moe.gov.cn/jyb_xwfb/s6192/s133/s204/202203/t20220324_610352.html" target="_blank" rel="noreferrer">教育部：推进课程思政与思政课程同向同行的实践案例</a></li>
+            </ol>
+        </footer>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="#overview">总览</a>
+        <a href="#policy">理论</a>
+        <a href="#case">案例</a>
+        <a href="#sample">真题</a>
+        <a href="#writing">公文</a>
+    </nav>
+
+    <div class="toast" id="toast">已复制到剪贴板</div>
+
+    <script>
+        const toast = document.getElementById("toast");
+        const modeToggle = document.getElementById("modeToggle");
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add("show");
+            window.clearTimeout(showToast.timer);
+            showToast.timer = window.setTimeout(() => {
+                toast.classList.remove("show");
+            }, 1600);
+        }
+
+        document.querySelectorAll("[data-copy]").forEach((button) => {
+            button.addEventListener("click", async () => {
+                const target = document.getElementById(button.dataset.copy);
+                if (!target) {
+                    showToast("未找到可复制内容");
+                    return;
+                }
+
+                try {
+                    await navigator.clipboard.writeText(target.innerText.trim());
+                    button.classList.add("done");
+                    showToast("本段模板已复制");
+                    window.setTimeout(() => button.classList.remove("done"), 1200);
+                } catch (error) {
+                    showToast("复制失败，请长按手动复制");
+                }
+            });
+        });
+
+        modeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("memorize");
+            modeToggle.textContent = document.body.classList.contains("memorize")
+                ? "退出背诵模式"
+                : "切换背诵模式";
+            showToast(document.body.classList.contains("memorize") ? "已进入背诵模式" : "已退出背诵模式");
+        });
+    </script>
+</body>
+</html>
