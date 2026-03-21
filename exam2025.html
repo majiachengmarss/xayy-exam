@@ -562,7 +562,7 @@
                     { q: "2025年，高校党风廉政建设的重点包括（ ）", options: ["加强制度建设", "强化监督执纪", "推进作风建设", "开展廉洁教育"], answer: ["A","B","C","D"] }
                 ],
                 caseStudies: [
-                    { title: "案例一：高校管理创新", content: "2025年，某高校推行"扁平化管理"改革，减少管理层次，提高管理效率，但在实施过程中遇到了部门协调困难、人员职责不清等问题。", question: "问题：作为高校管理者，你将如何推进管理创新，解决改革中遇到的问题？（10分）" },
+                    { title: "案例一：高校管理创新", content: "某高校推行"扁平化管理"改革，减少管理层次，提高管理效率，但在实施过程中遇到了部门协调困难、人员职责不清等问题。", question: "问题：作为高校管理者，你将如何推进管理创新，解决改革中遇到的问题？（10分）" },
                     { title: "案例二：校园文化建设", content: "某高校计划在2025年加强校园文化建设，打造特色校园文化品牌，但面临资金不足、师生参与度不高、文化活动形式单一等问题。", question: "问题：作为高校管理者，你将如何加强校园文化建设，打造具有特色的校园文化品牌？（10分）" }
                 ],
                 writing: { title: "公文写作题", content: "你是西安音乐学院办公室主任，学校计划在2025年制定"十四五"发展规划。请结合学校实际和国家教育改革趋势，写一篇规划纲要，600字以上。", requirement: "格式规范，目标明确，措施具体，具有前瞻性和可操作性。" }
@@ -602,178 +602,84 @@
             const examContainer = document.getElementById('examContainer');
             const paper = examPapers[currentPaper];
             
-            let html = `
-                <div class="exam-header">
-                    <h2>${paper.title}</h2>
-                    <div class="exam-info">
-                        <span class="exam-badge">单选题：${paper.singleQuestions.length}题</span>
-                        <span class="exam-badge">多选题：${paper.multiQuestions.length}题</span>
-                        <span class="exam-badge">案例分析：${paper.caseStudies.length}题</span>
-                        <span class="exam-badge">公文写作：1题</span>
-                    </div>
-                </div>
-            `;
+            let html = '<div class="exam-header"><h2>' + paper.title + '</h2><div class="exam-info"><span class="exam-badge">单选题：' + paper.singleQuestions.length + '题</span><span class="exam-badge">多选题：' + paper.multiQuestions.length + '题</span><span class="exam-badge">案例分析：' + paper.caseStudies.length + '题</span><span class="exam-badge">公文写作：1题</span></div></div>';
 
             if (paper.singleQuestions.length > 0) {
-                html += `
-                    <div class="section">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <span>一、单选题</span>
-                            <span class="section-toggle">▶</span>
-                        </div>
-                        <div class="section-content">
-                            <div class="category-label">基础知识</div>
-                `;
+                html += '<div class="section"><div class="section-header" onclick="toggleSection(this)"><span>一、单选题</span><span class="section-toggle">▶</span></div><div class="section-content"><div class="category-label">基础知识</div>';
                 
-                paper.singleQuestions.forEach((q, index) => {
-                    const questionId = `single_${index}`;
-                    html += `
-                        <div class="question">
-                            <div class="question-num">${index + 1}</div>
-                            <div class="question-text">${q.q}</div>
-                            <div class="options">
-                    `;
+                paper.singleQuestions.forEach(function(q, index) {
+                    var questionId = 'single_' + index;
+                    html += '<div class="question"><div class="question-num">' + (index + 1) + '</div><div class="question-text">' + q.q + '</div><div class="options">';
                     
-                    q.options.forEach((option, optIndex) => {
-                        const optionLetter = String.fromCharCode(65 + optIndex);
-                        const isSelected = userAnswers[currentPaper][questionId] === optionLetter;
-                        const isCorrect = q.answer === optionLetter;
-                        const isWrong = userAnswers[currentPaper][questionId] && userAnswers[currentPaper][questionId] !== q.answer;
+                    q.options.forEach(function(option, optIndex) {
+                        var optionLetter = String.fromCharCode(65 + optIndex);
+                        var isSelected = userAnswers[currentPaper][questionId] === optionLetter;
+                        var isCorrect = q.answer === optionLetter;
+                        var isWrong = userAnswers[currentPaper][questionId] && userAnswers[currentPaper][questionId] !== q.answer;
+                        var classes = 'option';
+                        if (isSelected) classes += ' selected';
+                        if (isCorrect && userAnswers[currentPaper][questionId]) classes += ' correct';
+                        if (isWrong) classes += ' wrong';
+                        if (userAnswers[currentPaper][questionId]) classes += ' disabled';
                         
-                        html += `
-                                <div class="option ${isSelected ? 'selected' : ''} ${isCorrect && userAnswers[currentPaper][questionId] ? 'correct' : ''} ${isWrong ? 'wrong' : ''} ${userAnswers[currentPaper][questionId] ? 'disabled' : ''}" onclick="selectOption('${questionId}', '${optionLetter}', ${index})")">
-                                    <span class="option-letter">${optionLetter}.</span>
-                                    <span>${option}</span>
-                                </div>
-                        `;
+                        html += '<div class="' + classes + '" onclick="selectOption(\'' + questionId + '\', \'' + optionLetter + '\', ' + index + ')"><span class="option-letter">' + optionLetter + '.</span><span>' + option + '</span></div>';
                     });
                     
                     if (userAnswers[currentPaper][questionId]) {
-                        const isCorrect = q.answer === userAnswers[currentPaper][questionId];
-                        html += `
-                            <div class="feedback ${isCorrect ? 'correct' : 'wrong'} show">
-                                ${isCorrect ? '回答正确！' : `回答错误。正确答案是：${q.answer}`}
-                            </div>
-                        `;
+                        var isCorrect = q.answer === userAnswers[currentPaper][questionId];
+                        html += '<div class="feedback ' + (isCorrect ? 'correct' : 'wrong') + ' show">' + (isCorrect ? '回答正确！' : '回答错误。正确答案是：' + q.answer) + '</div>';
                     }
                     
-                    html += `
-                            </div>
-                        </div>
-                    `;
+                    html += '</div></div>';
                 });
                 
-                html += `
-                        </div>
-                    </div>
-                `;
+                html += '</div></div>';
             }
 
             if (paper.multiQuestions.length > 0) {
-                html += `
-                    <div class="section">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <span>二、多选题</span>
-                            <span class="section-toggle">▶</span>
-                        </div>
-                        <div class="section-content">
-                            <div class="category-label">综合知识</div>
-                `;
+                html += '<div class="section"><div class="section-header" onclick="toggleSection(this)"><span>二、多选题</span><span class="section-toggle">▶</span></div><div class="section-content"><div class="category-label">综合知识</div>';
                 
-                paper.multiQuestions.forEach((q, index) => {
-                    const questionId = `multi_${index}`;
-                    html += `
-                        <div class="question">
-                            <div class="question-num">${index + 1}</div>
-                            <div class="question-text">${q.q}</div>
-                            <div class="options">
-                    `;
+                paper.multiQuestions.forEach(function(q, index) {
+                    var questionId = 'multi_' + index;
+                    html += '<div class="question"><div class="question-num">' + (index + 1) + '</div><div class="question-text">' + q.q + '</div><div class="options">';
                     
-                    q.options.forEach((option, optIndex) => {
-                        const optionLetter = String.fromCharCode(65 + optIndex);
-                        const isSelected = userAnswers[currentPaper][questionId] && userAnswers[currentPaper][questionId].includes(optionLetter);
-                        const isCorrect = q.answer.includes(optionLetter);
+                    q.options.forEach(function(option, optIndex) {
+                        var optionLetter = String.fromCharCode(65 + optIndex);
+                        var isSelected = userAnswers[currentPaper][questionId] && userAnswers[currentPaper][questionId].includes(optionLetter);
+                        var isCorrect = q.answer.includes(optionLetter);
+                        var classes = 'option';
+                        if (isSelected) classes += ' selected';
+                        if (isCorrect && userAnswers[currentPaper][questionId]) classes += ' correct';
+                        if (!isCorrect && isSelected) classes += ' wrong';
+                        if (userAnswers[currentPaper][questionId]) classes += ' disabled';
                         
-                        html += `
-                                <div class="option ${isSelected ? 'selected' : ''} ${isCorrect && userAnswers[currentPaper][questionId] ? 'correct' : ''} ${!isCorrect && isSelected ? 'wrong' : ''} ${userAnswers[currentPaper][questionId] ? 'disabled' : ''}" onclick="selectMultiOption('${questionId}', '${optionLetter}', ${index})")">
-                                    <span class="option-letter">${optionLetter}.</span>
-                                    <span>${option}</span>
-                                </div>
-                        `;
+                        html += '<div class="' + classes + '" onclick="selectMultiOption(\'' + questionId + '\', \'' + optionLetter + '\', ' + index + ')"><span class="option-letter">' + optionLetter + '.</span><span>' + option + '</span></div>';
                     });
                     
                     if (userAnswers[currentPaper][questionId]) {
-                        const isCorrect = JSON.stringify(userAnswers[currentPaper][questionId].sort()) === JSON.stringify(q.answer.sort());
-                        html += `
-                            <div class="feedback ${isCorrect ? 'correct' : 'wrong'} show">
-                                ${isCorrect ? '回答正确！' : `回答错误。正确答案是：${q.answer.join(', ')}`}
-                            </div>
-                        `;
+                        var isCorrect = JSON.stringify(userAnswers[currentPaper][questionId].sort()) === JSON.stringify(q.answer.sort());
+                        html += '<div class="feedback ' + (isCorrect ? 'correct' : 'wrong') + ' show">' + (isCorrect ? '回答正确！' : '回答错误。正确答案是：' + q.answer.join(', ')) + '</div>';
                     }
                     
-                    html += `
-                            </div>
-                        </div>
-                    `;
+                    html += '</div></div>';
                 });
                 
-                html += `
-                        </div>
-                    </div>
-                `;
+                html += '</div></div>';
             }
 
             if (paper.caseStudies.length > 0) {
-                html += `
-                    <div class="section">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <span>三、案例分析题</span>
-                            <span class="section-toggle">▶</span>
-                        </div>
-                        <div class="section-content">
-                            <div class="category-label">分析能力</div>
-                `;
+                html += '<div class="section"><div class="section-header" onclick="toggleSection(this)"><span>三、案例分析题</span><span class="section-toggle">▶</span></div><div class="section-content"><div class="category-label">分析能力</div>';
                 
-                paper.caseStudies.forEach((caseStudy, index) => {
-                    const questionId = `case_${index}`;
-                    html += `
-                        <div class="question">
-                            <div class="case-box">
-                                <div class="case-title">${caseStudy.title}</div>
-                                <div class="case-content">${caseStudy.content}</div>
-                                <div class="case-question">${caseStudy.question}</div>
-                            </div>
-                            <textarea class="writing-area" placeholder="请在此处输入你的答案..." ${userAnswers[currentPaper][questionId] ? '' : ''}>${userAnswers[currentPaper][questionId] || ''}</textarea>
-                        </div>
-                    `;
+                paper.caseStudies.forEach(function(caseStudy, index) {
+                    var questionId = 'case_' + index;
+                    html += '<div class="question"><div class="case-box"><div class="case-title">' + caseStudy.title + '</div><div class="case-content">' + caseStudy.content + '</div><div class="case-question">' + caseStudy.question + '</div></div><textarea class="writing-area" placeholder="请在此处输入你的答案...">' + (userAnswers[currentPaper][questionId] || '') + '</textarea></div>';
                 });
                 
-                html += `
-                        </div>
-                    </div>
-                `;
+                html += '</div></div>';
             }
 
             if (paper.writing) {
-                html += `
-                    <div class="section">
-                        <div class="section-header" onclick="toggleSection(this)">
-                            <span>四、公文写作题</span>
-                            <span class="section-toggle">▶</span>
-                        </div>
-                        <div class="section-content">
-                            <div class="category-label">写作能力</div>
-                            <div class="question">
-                                <div class="case-box">
-                                    <div class="case-title">${paper.writing.title}</div>
-                                    <div class="case-content">${paper.writing.content}</div>
-                                    <div class="case-question">${paper.writing.requirement}</div>
-                                </div>
-                                <textarea class="writing-area" placeholder="请在此处输入你的答案..." ${userAnswers[currentPaper].writing ? '' : ''}>${userAnswers[currentPaper].writing || ''}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                html += '<div class="section"><div class="section-header" onclick="toggleSection(this)"><span>四、公文写作题</span><span class="section-toggle">▶</span></div><div class="section-content"><div class="category-label">写作能力</div><div class="question"><div class="case-box"><div class="case-title">' + paper.writing.title + '</div><div class="case-content">' + paper.writing.content + '</div><div class="case-question">' + paper.writing.requirement + '</div></div><textarea class="writing-area" placeholder="请在此处输入你的答案...">' + (userAnswers[currentPaper].writing || '') + '</textarea></div></div></div>';
             }
             
             examContainer.innerHTML = html;
@@ -781,7 +687,7 @@
         }
 
         function toggleSection(header) {
-            const section = header.parentElement;
+            var section = header.parentElement;
             section.classList.toggle('collapsed');
         }
 
@@ -798,7 +704,7 @@
             }
             
             if (userAnswers[currentPaper][questionId].includes(optionLetter)) {
-                userAnswers[currentPaper][questionId] = userAnswers[currentPaper][questionId].filter(item => item !== optionLetter);
+                userAnswers[currentPaper][questionId] = userAnswers[currentPaper][questionId].filter(function(item) { return item !== optionLetter; });
             } else {
                 userAnswers[currentPaper][questionId].push(optionLetter);
             }
@@ -807,50 +713,47 @@
         }
 
         function updateProgress() {
-            const paper = examPapers[currentPaper];
-            const totalQuestions = paper.singleQuestions.length + paper.multiQuestions.length;
-            let answeredQuestions = 0;
+            var paper = examPapers[currentPaper];
+            var totalQuestions = paper.singleQuestions.length + paper.multiQuestions.length;
+            var answeredQuestions = 0;
             
-            for (let i = 0; i < paper.singleQuestions.length; i++) {
-                if (userAnswers[currentPaper][`single_${i}`]) {
+            for (var i = 0; i < paper.singleQuestions.length; i++) {
+                if (userAnswers[currentPaper]['single_' + i]) {
                     answeredQuestions++;
                 }
             }
             
-            for (let i = 0; i < paper.multiQuestions.length; i++) {
-                if (userAnswers[currentPaper][`multi_${i}`]) {
+            for (var j = 0; j < paper.multiQuestions.length; j++) {
+                if (userAnswers[currentPaper]['multi_' + j]) {
                     answeredQuestions++;
                 }
             }
             
-            const progress = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
-            document.getElementById('progressFill').style.width = `${progress}%`;
+            var progress = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
+            document.getElementById('progressFill').style.width = progress + '%';
         }
 
         function submitExam() {
-            const paper = examPapers[currentPaper];
-            let score = 0;
-            let totalScore = 0;
+            var paper = examPapers[currentPaper];
+            var score = 0;
+            var totalScore = 0;
             
-            // 单选题评分
-            paper.singleQuestions.forEach((q, index) => {
+            paper.singleQuestions.forEach(function(q, index) {
                 totalScore += 2;
-                if (userAnswers[currentPaper][`single_${index}`] === q.answer) {
+                if (userAnswers[currentPaper]['single_' + index] === q.answer) {
                     score += 2;
                 }
             });
             
-            // 多选题评分
-            paper.multiQuestions.forEach((q, index) => {
+            paper.multiQuestions.forEach(function(q, index) {
                 totalScore += 4;
-                const userAnswer = userAnswers[currentPaper][`multi_${index}`];
+                var userAnswer = userAnswers[currentPaper]['multi_' + index];
                 if (userAnswer && JSON.stringify(userAnswer.sort()) === JSON.stringify(q.answer.sort())) {
                     score += 4;
                 }
             });
             
-            // 案例分析和写作题暂时给满分
-            paper.caseStudies.forEach(() => {
+            paper.caseStudies.forEach(function() {
                 totalScore += 10;
                 score += 10;
             });
@@ -860,12 +763,12 @@
                 score += 20;
             }
             
-            const accuracy = totalScore > 0 ? Math.round((score / totalScore) * 100) : 0;
+            var accuracy = totalScore > 0 ? Math.round((score / totalScore) * 100) : 0;
             
-            document.getElementById('resultScore').textContent = `${score}分`;
-            document.getElementById('resultDetail').textContent = `正确率 ${accuracy}%`;
+            document.getElementById('resultScore').textContent = score + '分';
+            document.getElementById('resultDetail').textContent = '正确率 ' + accuracy + '%';
             
-            const resultIcon = document.getElementById('resultIcon');
+            var resultIcon = document.getElementById('resultIcon');
             if (accuracy >= 80) {
                 resultIcon.className = 'result-icon good';
                 resultIcon.textContent = '🎉';
@@ -894,7 +797,6 @@
             document.getElementById('resultModal').classList.remove('show');
         }
 
-        // 初始化
         initPapers();
         switchToPaper(0);
     </script>
