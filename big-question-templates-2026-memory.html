@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>西安音乐学院2026招聘笔试纯背诵精简版</title>
+    <style>
+        :root {
+            --bg: #f7f1e7;
+            --paper: rgba(255, 252, 247, 0.96);
+            --paper-strong: #fffdf8;
+            --ink: #1f2f31;
+            --muted: #5d6a6f;
+            --teal: #0f5c59;
+            --teal-soft: rgba(15, 92, 89, 0.1);
+            --amber: #b87c36;
+            --amber-soft: rgba(184, 124, 54, 0.12);
+            --line: rgba(15, 92, 89, 0.12);
+            --shadow: 0 16px 40px rgba(31, 47, 49, 0.08);
+            --radius-lg: 24px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(184, 124, 54, 0.14), transparent 26%),
+                radial-gradient(circle at top right, rgba(15, 92, 89, 0.14), transparent 28%),
+                linear-gradient(180deg, #f9f3ea 0%, #f2eadf 100%);
+            line-height: 1.7;
+        }
+
+        a {
+            color: var(--teal);
+        }
+
+        .app {
+            width: min(100%, 820px);
+            margin: 0 auto;
+            padding: 16px 14px 104px;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 26px 18px 22px;
+            border-radius: 28px;
+            color: #fffaf4;
+            background:
+                linear-gradient(135deg, rgba(15, 92, 89, 0.96), rgba(20, 56, 61, 0.94));
+            box-shadow: var(--shadow);
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 999px;
+            pointer-events: none;
+            opacity: 0.16;
+        }
+
+        .hero::before {
+            width: 220px;
+            height: 220px;
+            top: -90px;
+            right: -70px;
+            background: linear-gradient(135deg, #f8dfbf, transparent 70%);
+        }
+
+        .hero::after {
+            width: 180px;
+            height: 180px;
+            bottom: -80px;
+            left: -60px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 75%);
+        }
+
+        .eyebrow {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.22);
+            background: rgba(255,255,255,0.08);
+            font-size: 12px;
+            letter-spacing: 0.04em;
+        }
+
+        .hero h1 {
+            position: relative;
+            z-index: 1;
+            margin-top: 14px;
+            font-family: "Source Han Serif SC", "Songti SC", "STSong", "Noto Serif SC", serif;
+            font-size: clamp(28px, 7vw, 38px);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .hero p {
+            position: relative;
+            z-index: 1;
+            margin-top: 12px;
+            font-size: 14px;
+            color: rgba(255, 250, 244, 0.9);
+        }
+
+        .hero-actions,
+        .chip-row,
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hero-actions {
+            position: relative;
+            z-index: 1;
+            margin-top: 16px;
+        }
+
+        .button,
+        .copy-btn {
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            background: #fbf1e0;
+            color: var(--teal);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .button:active,
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        .meta-row {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .meta {
+            padding: 8px 11px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.08);
+            font-size: 12px;
+        }
+
+        .quick-nav {
+            position: sticky;
+            top: 10px;
+            z-index: 10;
+            margin-top: 14px;
+            padding: 10px;
+            border-radius: 18px;
+            background: rgba(255, 252, 247, 0.9);
+            border: 1px solid rgba(15, 92, 89, 0.08);
+            box-shadow: 0 12px 24px rgba(31, 47, 49, 0.08);
+            backdrop-filter: blur(14px);
+        }
+
+        .quick-nav .chip-row {
+            overflow-x: auto;
+            padding-bottom: 2px;
+            scrollbar-width: none;
+        }
+
+        .quick-nav .chip-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-chip {
+            flex: 0 0 auto;
+            padding: 9px 13px;
+            border-radius: 999px;
+            background: var(--teal-soft);
+            color: var(--teal);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .panel {
+            scroll-margin-top: 84px;
+            margin-top: 18px;
+            padding: 20px 16px;
+            border-radius: var(--radius-lg);
+            background: var(--paper);
+            border: 1px solid rgba(255,255,255,0.45);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-title {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .panel-title h2 {
+            font-family: "Source Han Serif SC", "Songti SC", "STSong", "Noto Serif SC", serif;
+            font-size: 22px;
+            line-height: 1.3;
+            color: var(--teal);
+        }
+
+        .badge {
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: var(--amber-soft);
+            color: var(--amber);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .lead {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .grid {
+            display: grid;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .card {
+            position: relative;
+            padding: 16px 14px;
+            border-radius: var(--radius-md);
+            background: var(--paper-strong);
+            border: 1px solid var(--line);
+        }
+
+        .card h3 {
+            font-size: 18px;
+            color: var(--teal);
+            margin-bottom: 10px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--teal-soft);
+            color: var(--teal);
+        }
+
+        .copy-btn.done {
+            background: var(--amber-soft);
+            color: var(--amber);
+        }
+
+        ul,
+        ol {
+            padding-left: 18px;
+        }
+
+        li + li {
+            margin-top: 8px;
+        }
+
+        .memory-list li::marker,
+        .outline li::marker {
+            color: var(--teal);
+            font-weight: 700;
+        }
+
+        .line,
+        .sentence,
+        .block,
+        .tip {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+        }
+
+        .line {
+            background: var(--teal-soft);
+            border: 1px dashed rgba(15, 92, 89, 0.22);
+        }
+
+        .sentence {
+            background: var(--amber-soft);
+            border: 1px solid rgba(184, 124, 54, 0.2);
+        }
+
+        .block {
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,245,236,0.98));
+            border: 1px solid rgba(184, 124, 54, 0.14);
+        }
+
+        .tip {
+            background: rgba(15, 92, 89, 0.06);
+            border: 1px solid rgba(15, 92, 89, 0.1);
+            color: var(--muted);
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: var(--teal-soft);
+            color: var(--teal);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .replace {
+            display: inline-block;
+            min-width: 72px;
+            margin: 0 3px;
+            padding: 0 3px 2px;
+            border-bottom: 1.5px dashed rgba(15, 92, 89, 0.34);
+            text-align: center;
+            color: var(--teal);
+            font-weight: 700;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            z-index: 20;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            padding: 10px;
+            border-radius: 18px;
+            background: rgba(255, 252, 247, 0.96);
+            border: 1px solid rgba(15, 92, 89, 0.1);
+            box-shadow: 0 14px 28px rgba(31, 47, 49, 0.12);
+            backdrop-filter: blur(16px);
+        }
+
+        .bottom-nav a {
+            padding: 9px 7px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            background: rgba(15, 92, 89, 0.06);
+            color: var(--teal);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .footer {
+            margin-top: 18px;
+            padding: 18px 16px 24px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.66);
+            border: 1px solid rgba(15, 92, 89, 0.08);
+        }
+
+        .footer p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 86px;
+            transform: translateX(-50%) translateY(14px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.22s ease;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(20, 56, 61, 0.92);
+            color: #fffaf4;
+            font-size: 13px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (min-width: 720px) {
+            .app {
+                padding: 22px 20px 116px;
+            }
+
+            .panel {
+                padding: 24px 20px;
+            }
+
+            .grid.two {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .bottom-nav {
+                left: 50%;
+                right: auto;
+                width: min(100%, 720px);
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="hero" id="top">
+            <div class="eyebrow">纯背诵精简版</div>
+            <h1>西安音乐学院2026招聘笔试<br>大题速记页</h1>
+            <p>只保留最值得背的结构、标题和标准句。适合考前冲刺、早晚刷一遍、临进考场快速过脑。</p>
+            <div class="hero-actions">
+                <a class="button" href="/Users/lixiaoman/Desktop/AI_project/xayy-exam/big-question-templates-2026.html">看完整版</a>
+                <a class="button" href="#case">直接背案例</a>
+            </div>
+            <div class="meta-row">
+                <span class="meta">先背结构</span>
+                <span class="meta">再背标题</span>
+                <span class="meta">最后换主题词</span>
+            </div>
+        </header>
+
+        <nav class="quick-nav">
+            <div class="chip-row">
+                <a class="nav-chip" href="#formula">总公式</a>
+                <a class="nav-chip" href="#policy">理论句</a>
+                <a class="nav-chip" href="#case">案例题</a>
+                <a class="nav-chip" href="#writing">公文题</a>
+                <a class="nav-chip" href="#final">最后刷</a>
+            </div>
+        </nav>
+
+        <section class="panel" id="formula">
+            <div class="panel-title">
+                <h2>一页总公式</h2>
+                <span class="badge">先背这个</span>
+            </div>
+            <div class="grid two">
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="masterEssay">复制</button>
+                    <div id="masterEssay">
+                        <h3>论述题万能公式</h3>
+                        <ol class="outline">
+                            <li>开头定性：这是落实立德树人根本任务的重要内容。</li>
+                            <li>理论依据：立德树人、三全育人、以学生为中心、价值引领。</li>
+                            <li>主体四点：提高站位、融入日常、创新载体、完善机制。</li>
+                            <li>结尾升华：培养德智体美劳全面发展的社会主义建设者和接班人。</li>
+                        </ol>
+                        <div class="sentence">我认为，这项工作本质上是新时代高校落实立德树人根本任务的具体体现，必须坚持价值引领、问题导向和机制保障相统一，推动相关要求落到实处、取得实效。</div>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="masterCase">复制</button>
+                    <div id="masterCase">
+                        <h3>案例题万能公式</h3>
+                        <ol class="outline">
+                            <li>先表态：高度重视，坚持以学生为中心。</li>
+                            <li>再定性：既是管理问题，也是育人问题。</li>
+                            <li>先处置：第一时间了解情况、稳定情绪。</li>
+                            <li>再解决：核实原因、分类施策、协同联动。</li>
+                            <li>再教育：谈心谈话、规则教育、心理疏导。</li>
+                            <li>再巩固：建立台账、跟踪回访、完善机制。</li>
+                        </ol>
+                        <div class="sentence">我会坚持“先共情、后核实、再解决、再教育、再巩固”的思路，既解决学生现实困难，又做好思想引导和规则教育。</div>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="masterWriting">复制</button>
+                    <div id="masterWriting">
+                        <h3>发言稿万能公式</h3>
+                        <ol class="outline">
+                            <li>称呼问候。</li>
+                            <li>开头点题：身份 + 场合 + 感谢 + 主题。</li>
+                            <li>形势意义：为什么重要。</li>
+                            <li>主体四点：强化引领、搭建平台、优化服务、精准帮扶。</li>
+                            <li>结尾：下一步打算 + 祝愿感谢。</li>
+                        </ol>
+                        <div class="sentence">尊敬的各位领导、老师，亲爱的同学们，大家好。很荣幸参加本次<span class="replace">活动名称</span>，下面我围绕<span class="replace">主题</span>谈几点认识和体会。</div>
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>最稳分点标题</h3>
+                    <div class="block">一是提高站位，深化认识。</div>
+                    <div class="block">二是摸清情况，精准研判。</div>
+                    <div class="block">三是分类施策，务求实效。</div>
+                    <div class="block">四是协同联动，凝聚合力。</div>
+                    <div class="block">五是健全机制，巩固提升。</div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel" id="policy">
+            <div class="panel-title">
+                <h2>理论高频句</h2>
+                <span class="badge">选择题和大题都能用</span>
+            </div>
+            <div class="grid two">
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="policyOne">复制</button>
+                    <div id="policyOne">
+                        <h3>文艺工作座谈会</h3>
+                        <ul class="memory-list">
+                            <li>坚持以人民为中心的创作导向。</li>
+                            <li>社会主义文艺本质上是人民的文艺。</li>
+                            <li>创作无愧于时代的优秀作品。</li>
+                            <li>把社会效益放在首位。</li>
+                            <li>文艺工作者要德艺双馨。</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="policyTwo">复制</button>
+                    <div id="policyTwo">
+                        <h3>教育家精神六句</h3>
+                        <ul class="memory-list">
+                            <li>心有大我、至诚报国。</li>
+                            <li>言为士则、行为世范。</li>
+                            <li>启智润心、因材施教。</li>
+                            <li>勤学笃行、求是创新。</li>
+                            <li>乐教爱生、甘于奉献。</li>
+                            <li>胸怀天下、以文化人。</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="policyThree">复制</button>
+                    <div id="policyThree">
+                        <h3>课程思政四句</h3>
+                        <ul class="memory-list">
+                            <li>落实立德树人根本任务。</li>
+                            <li>把思想政治教育贯穿人才培养体系。</li>
+                            <li>把价值塑造、知识传授、能力培养融为一体。</li>
+                            <li>使各类课程与思政课同向同行。</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="policyFour">复制</button>
+                    <div id="policyFour">
+                        <h3>辅导员职责九项</h3>
+                        <ul class="memory-list">
+                            <li>思想理论教育和价值引领。</li>
+                            <li>党团和班级建设。</li>
+                            <li>学风建设。</li>
+                            <li>学生日常事务管理。</li>
+                            <li>心理健康教育与咨询工作。</li>
+                            <li>网络思想政治教育。</li>
+                            <li>校园危机事件应对。</li>
+                            <li>职业规划与就业创业指导。</li>
+                            <li>理论和实践研究。</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+            <div class="line">大题万能落点：立德树人、以学生为中心、教育管理服务并重、解决思想问题和解决实际问题相结合。</div>
+        </section>
+
+        <section class="panel" id="case">
+            <div class="panel-title">
+                <h2>案例题速背卡</h2>
+                <span class="badge">重点背标题</span>
+            </div>
+            <div class="grid two">
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="dormMini">复制</button>
+                    <div id="dormMini">
+                        <h3>宿舍问题</h3>
+                        <ol class="outline">
+                            <li>第一时间回应诉求，安抚情绪。</li>
+                            <li>深入宿舍核实情况，摸清噪音和设施问题。</li>
+                            <li>联合后勤、宿管分类解决。</li>
+                            <li>合理调宿按制度办理。</li>
+                            <li>组织沟通，制定宿舍公约。</li>
+                            <li>加强新生适应教育和宿舍文化建设。</li>
+                        </ol>
+                        <div class="sentence">这是新生适应教育、学生事务管理和宿舍育人问题。我会坚持以学生为中心，先安抚、再核实、再协调、再教育、再巩固。</div>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="patriotMini">复制</button>
+                    <div id="patriotMini">
+                        <h3>爱国主义教育</h3>
+                        <ol class="outline">
+                            <li>强化理论武装，讲好四史。</li>
+                            <li>融入主题班会、党团活动和日常教育。</li>
+                            <li>用好红色基地、社会实践和志愿服务。</li>
+                            <li>善用新媒体讲好中国故事。</li>
+                            <li>结合艺术实践、红色音乐和美育活动。</li>
+                        </ol>
+                        <div class="sentence">要把爱国主义教育融入日常、抓在经常，引导学生把爱国之情转化为报国之志和强国之行。</div>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="mentalMini">复制</button>
+                    <div id="mentalMini">
+                        <h3>心理危机</h3>
+                        <ol class="outline">
+                            <li>生命至上，安全第一。</li>
+                            <li>第一时间陪伴学生，稳定情绪。</li>
+                            <li>及时报告学院、心理中心、相关部门。</li>
+                            <li>必要时联系家长和医疗资源。</li>
+                            <li>后续做好回访和支持。</li>
+                        </ol>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="studyMini">复制</button>
+                    <div id="studyMini">
+                        <h3>学风诚信</h3>
+                        <ol class="outline">
+                            <li>定性为学风建设和诚信教育问题。</li>
+                            <li>教育在先，程序规范，处理公正。</li>
+                            <li>加强考风考纪和学术规范教育。</li>
+                            <li>分类帮扶，营造勤学诚信氛围。</li>
+                        </ol>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="publicOpinionMini">复制</button>
+                    <div id="publicOpinionMini">
+                        <h3>网络舆情突发</h3>
+                        <ol class="outline">
+                            <li>第一时间核实真伪并上报。</li>
+                            <li>及时回应关切，稳定情绪。</li>
+                            <li>统一口径，协同处置。</li>
+                            <li>事后复盘，完善预案。</li>
+                        </ol>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="jobMini">复制</button>
+                    <div id="jobMini">
+                        <h3>就业帮扶</h3>
+                        <ol class="outline">
+                            <li>树立正确就业观。</li>
+                            <li>建立一人一档、一人一策。</li>
+                            <li>强化简历、面试、岗位推荐服务。</li>
+                            <li>鼓励基层就业、多元就业和创新创业。</li>
+                        </ol>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel" id="writing">
+            <div class="panel-title">
+                <h2>公文题速背卡</h2>
+                <span class="badge">发言稿优先背</span>
+            </div>
+            <div class="grid two">
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="speechOpen">复制</button>
+                    <div id="speechOpen">
+                        <h3>发言稿开头</h3>
+                        <div class="block">尊敬的各位领导、老师，亲爱的同学们：</div>
+                        <div class="block">大家好！很高兴参加本次<span class="replace">活动名称</span>。作为<span class="replace">身份</span>，能够围绕<span class="replace">主题</span>与大家交流，我感到十分荣幸。下面，我结合工作实际，谈几点认识和体会。</div>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="speechBody">复制</button>
+                    <div id="speechBody">
+                        <h3>发言稿主体标题</h3>
+                        <div class="block">第一，坚持价值引领，树立正确观念。</div>
+                        <div class="block">第二，坚持精准服务，提升指导实效。</div>
+                        <div class="block">第三，坚持拓宽渠道，搭建发展平台。</div>
+                        <div class="block">第四，坚持重点帮扶，兜牢工作底线。</div>
+                    </div>
+                </article>
+                <article class="card">
+                    <button class="copy-btn" type="button" data-copy="speechEnd">复制</button>
+                    <div id="speechEnd">
+                        <h3>发言稿结尾</h3>
+                        <div class="block">下一步，我们将继续坚持问题导向和结果导向，进一步完善工作机制，优化服务体系，提升工作质效，推动各项任务落地见效。</div>
+                        <div class="block">最后，预祝本次活动圆满成功，祝各位领导、老师工作顺利，祝同学们前程似锦。谢谢大家！</div>
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>通知/方案一句话模板</h3>
+                    <div class="line">通知：请各单位高度重视，认真组织实施。</div>
+                    <div class="line">方案：突出主题、周密部署、压实责任、确保实效。</div>
+                    <div class="line">倡议书：从我做起、从现在做起、从点滴做起。</div>
+                </article>
+            </div>
+        </section>
+
+        <section class="panel" id="final">
+            <div class="panel-title">
+                <h2>考前最后刷</h2>
+                <span class="badge">最少背住这些</span>
+            </div>
+            <div class="grid two">
+                <article class="card">
+                    <h3>只背 8 句也能上场</h3>
+                    <div class="block">1. 这是落实立德树人根本任务的重要内容。</div>
+                    <div class="block">2. 要坚持以学生为中心，做到教育、管理、服务、引导相统一。</div>
+                    <div class="block">3. 既要解决实际问题，也要解决思想问题。</div>
+                    <div class="block">4. 第一时间了解情况，稳定情绪，摸清底数。</div>
+                    <div class="block">5. 坚持问题导向，分类施策，协同联动。</div>
+                    <div class="block">6. 加强谈心谈话、价值引领和规则教育。</div>
+                    <div class="block">7. 建立台账，跟踪回访，完善长效机制。</div>
+                    <div class="block">8. 最终促进学生全面发展和校园和谐稳定。</div>
+                </article>
+                <article class="card">
+                    <h3>考场写作顺序</h3>
+                    <ol class="outline">
+                        <li>先写一个总判断句。</li>
+                        <li>马上列 4 个分点标题。</li>
+                        <li>每点写 2 到 3 句动作。</li>
+                        <li>结尾再写一句目标升华。</li>
+                    </ol>
+                    <div class="tip">宁可结构完整，也不要空泛抒情。评分时最吃香的是层次清楚、术语准确、措施具体。</div>
+                </article>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>这版是纯背诵页，重点是“记标题、记公式、记标准句”。如果你想继续压缩，我还可以再给你做一版“考前 10 分钟超短口袋版”。</p>
+        </footer>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="#top">总览</a>
+        <a href="#formula">公式</a>
+        <a href="#policy">理论</a>
+        <a href="#case">案例</a>
+        <a href="#writing">公文</a>
+    </nav>
+
+    <div class="toast" id="toast">已复制到剪贴板</div>
+
+    <script>
+        const toast = document.getElementById("toast");
+
+        async function copyText(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                return;
+            }
+
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.setAttribute("readonly", "");
+            textarea.style.position = "fixed";
+            textarea.style.top = "-9999px";
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+
+            const successful = document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            if (!successful) {
+                throw new Error("copy failed");
+            }
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add("show");
+            window.clearTimeout(showToast.timer);
+            showToast.timer = window.setTimeout(() => {
+                toast.classList.remove("show");
+            }, 1600);
+        }
+
+        document.querySelectorAll("[data-copy]").forEach((button) => {
+            button.addEventListener("click", async () => {
+                const target = document.getElementById(button.dataset.copy);
+                if (!target) {
+                    showToast("未找到内容");
+                    return;
+                }
+                try {
+                    await copyText(target.innerText.trim());
+                    button.classList.add("done");
+                    showToast("已复制本段");
+                    window.setTimeout(() => button.classList.remove("done"), 1200);
+                } catch (error) {
+                    showToast("复制失败，请长按手动复制");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
