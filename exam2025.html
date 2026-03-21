@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>西安音乐学院管理岗招聘2025模拟试卷</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+
+        .paper-selector {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .paper-selector h1 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .paper-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .paper-tab {
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .paper-tab:active {
+            transform: scale(0.95);
+        }
+
+        .paper-tab.active {
+            background: white;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+
+        .exam-header {
+            background: white;
+            padding: 20px;
+            margin: 16px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .exam-header h2 {
+            font-size: 17px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .exam-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .exam-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .section {
+            background: white;
+            margin: 0 16px 16px 16px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 18px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .section-header:active {
+            opacity: 0.9;
+        }
+
+        .section-toggle {
+            font-size: 16px;
+            transition: transform 0.3s;
+        }
+
+        .section.collapsed .section-toggle {
+            transform: rotate(-90deg);
+        }
+
+        .section.collapsed .section-content {
+            display: none;
+        }
+
+        .section-content {
+            padding: 16px;
+        }
+
+        .category-label {
+            font-size: 12px;
+            color: #999;
+            margin: 16px 0 12px 0;
+            font-weight: 500;
+            padding-left: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .category-label:first-child {
+            margin-top: 0;
+        }
+
+        .question {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .question:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            display: inline;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .option:active {
+            background: #e9ecef;
+        }
+
+        .option.correct {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724 !important;
+        }
+
+        .option.wrong {
+            background: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24 !important;
+        }
+
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .option-letter {
+            font-weight: 600;
+            color: #667eea;
+            margin-right: 8px;
+            min-width: 18px;
+        }
+
+        .option.correct .option-letter,
+        .option.wrong .option-letter {
+            color: inherit;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.wrong {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .case-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .case-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .case-content {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .case-question {
+            font-size: 13px;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .writing-area {
+            width: 100%;
+            min-height: 250px;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.7;
+            resize: vertical;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .writing-area:focus {
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            display: block;
+            width: calc(100% - 32px);
+            margin: 20px 16px;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            pointer-events: none;
+        }
+
+        .result-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .result-modal.show {
+            display: flex;
+        }
+
+        .result-content {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 360px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .result-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .result-icon.good {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .result-icon.ok {
+            background: #ffc107;
+            color: white;
+        }
+
+        .result-icon.bad {
+            background: #dc3545;
+            color: white;
+        }
+
+        .result-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .result-score {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .result-detail {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .result-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .result-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .result-btn.secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: rgba(255,255,255,0.3);
+            margin-top: 12px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            transition: width 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .exam-header h2 {
+                font-size: 20px;
+            }
+
+            .question-text {
+                font-size: 15px;
+            }
+
+            .option {
+                padding: 14px 16px;
+                font-size: 14px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="paper-selector">
+        <h1>📚 西安音乐学院管理岗招聘2025模拟试卷</h1>
+        <div class="paper-tabs" id="paperTabs"></div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <div id="examContainer"></div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitExam()">交卷并查看成绩</button>
+
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <div class="result-icon" id="resultIcon">🎉</div>
+            <div class="result-title" id="resultTitle">考试完成！</div>
+            <div class="result-score" id="resultScore">0分</div>
+            <div class="result-detail" id="resultDetail">正确率 0%</div>
+            <button class="result-btn primary" onclick="reviewAnswers()">查看错题</button>
+            <button class="result-btn secondary" onclick="switchPaper()">切换试卷</button>
+            <button class="result-btn secondary" onclick="resetExam()">重新答题</button>
+        </div>
+    </div>
+
+    <script>
+        const examPapers = [
+            {
+                id: 1,
+                title: "2025时事卷一：教育改革与发展",
+                singleQuestions: [
+                    { q: "2025年1月，教育部发布的《关于深化教育评价改革的意见》强调，要扭转不科学的教育评价导向，坚决克服（ ）的顽瘴痼疾。", options: ["唯分数、唯升学、唯文凭、唯论文、唯帽子", "唯分数、唯成绩、唯学历、唯证书、唯奖项", "唯成绩、唯升学、唯学历、唯论文、唯职称", "唯分数、唯升学、唯学历、唯论文、唯奖项"], answer: "A" },
+                    { q: "2025年3月，全国两会政府工作报告提出，要加大（ ）投入，优化教育资源配置，促进教育公平。", options: ["基础教育", "高等教育", "职业教育", "特殊教育"], answer: "A" },
+                    { q: "2025年，习近平总书记在全国教育大会上强调，培养什么人，是教育的（ ）问题。", options: ["根本", "首要", "核心", "关键"], answer: "B" },
+                    { q: "2025年，教育部推出的"强师计划"旨在（ ）", options: ["提高教师待遇", "加强教师培训", "优化教师队伍结构", "以上都是"], answer: "D" },
+                    { q: "2025年，我国高等教育毛入学率达到（ ），进入普及化阶段。", options: ["50%", "60%", "70%", "80%"], answer: "B" },
+                    { q: "2025年，国家出台的《关于加强和改进新时代学校体育工作的意见》要求，确保学生每天校内体育活动时间不少于（ ）。", options: ["1小时", "1.5小时", "2小时", "2.5小时"], answer: "A" },
+                    { q: "2025年，教育部推动的"双减"政策主要针对（ ）", options: ["减轻学生作业负担和校外培训负担", "减轻教师工作负担和学校管理负担", "减轻家长经济负担和精神负担", "减轻学校考试负担和评价负担"], answer: "A" },
+                    { q: "2025年，国家提出的"双一流"建设目标是（ ）", options: ["建设世界一流大学和一流学科", "建设世界一流教育体系", "建设世界一流教师队伍", "建设世界一流教育基础设施"], answer: "A" },
+                    { q: "2025年，教育部发布的《普通高等学校本科教育教学审核评估实施方案》强调，要突出（ ）导向。", options: ["结果", "过程", "质量", "效益"], answer: "C" },
+                    { q: "2025年，国家大力发展职业教育，提出到2025年，职业本科教育招生规模占高职招生规模的比例达到（ ）。", options: ["10%", "15%", "20%", "25%"], answer: "B" }
+                ],
+                multiQuestions: [
+                    { q: "2025年，教育部推动的教育数字化战略行动包括（ ）", options: ["数字教育资源公共服务体系建设", "智慧校园建设", "教育大数据应用", "教师数字素养提升"], answer: ["A","B","C","D"] },
+                    { q: "2025年，国家关于高校毕业生就业创业的政策措施包括（ ）", options: ["拓宽就业渠道", "鼓励自主创业", "加强就业指导", "提供就业服务"], answer: ["A","B","C","D"] },
+                    { q: "2025年，新时代教师职业行为十项准则包括（ ）", options: ["坚定政治方向", "自觉爱国守法", "潜心教书育人", "关心爱护学生"], answer: ["A","B","C","D"] }
+                ],
+                caseStudies: [
+                    { title: "案例一：数字化教学改革", content: "某高校在2025年推进数字化教学改革，引入人工智能辅助教学系统，但部分教师和学生对新系统不适应，出现了教学效果下降的情况。", question: "问题：作为高校管理者，你将如何推进数字化教学改革，确保改革成效？（10分）" },
+                    { title: "案例二：学生心理健康", content: "2025年，某高校学生心理健康问题呈上升趋势，主要表现为焦虑、抑郁等情绪问题。学校现有的心理咨询资源不足，难以满足学生需求。", question: "问题：作为高校辅导员，你将如何加强学生心理健康教育，建立有效的心理危机干预机制？（10分）" }
+                ],
+                writing: { title: "公文写作题", content: "你是某高校教务处负责人，学校计划在2025年推进课程思政建设。请结合当前教育改革趋势，写一篇关于课程思政建设的实施方案，600字以上。", requirement: "格式规范，内容充实，措施具体，具有可操作性。" }
+            },
+            {
+                id: 2,
+                title: "2025时事卷二：文化自信与艺术教育",
+                singleQuestions: [
+                    { q: "2025年，习近平总书记在文化传承发展座谈会上强调，要坚定（ ），推动中华优秀传统文化创造性转化、创新性发展。", options: ["道路自信", "理论自信", "制度自信", "文化自信"], answer: "D" },
+                    { q: "2025年，国家出台的《关于繁荣发展社会主义文艺的意见》强调，文艺创作要坚持（ ）的创作导向。", options: ["以市场为中心", "以效益为中心", "以人民为中心", "以艺术为中心"], answer: "C" },
+                    { q: "2025年，教育部发布的《关于加强新时代学校美育工作的意见》要求，到2025年，基本形成（ ）的学校美育体系。", options: ["全覆盖、多样化、高质量", "全面发展、个性成长、特色鲜明", "德智体美劳全面培养", "以美育人、以文化人"], answer: "A" },
+                    { q: "2025年，国家大力推动非物质文化遗产保护传承，强调要（ ）", options: ["保护为主、抢救第一、合理利用、传承发展", "保护优先、开发为辅、市场运作、品牌建设", "政府主导、社会参与、市场运作、传承创新", "保护传承、创新发展、教育普及、国际交流"], answer: "A" },
+                    { q: "2025年，西安音乐学院成功举办的"一带一路"音乐文化节，体现了（ ）的理念。", options: ["文化交流、互学互鉴", "文化输出、单向传播", "文化保护、封闭发展", "文化融合、同质化发展"], answer: "A" },
+                    { q: "2025年，国家出台的《关于加强和改进新时代学校体育美育工作的意见》要求，将体育美育纳入（ ）", options: ["学校考核体系", "学生综合素质评价", "教师评价体系", "以上都是"], answer: "D" },
+                    { q: "2025年，教育部推出的"艺术教育普及计划"旨在（ ）", options: ["提高学生艺术素养", "培养艺术专业人才", "繁荣校园文化", "促进艺术产业发展"], answer: "A" },
+                    { q: "2025年，国家强调要加强（ ）教育，培养学生的文化认同和国家意识。", options: ["传统文化", "革命文化", "社会主义先进文化", "以上都是"], answer: "D" },
+                    { q: "2025年，西安音乐学院在学科建设中强调（ ）的发展理念。", options: ["特色发展、内涵建设", "规模扩张、数量增长", "全面发展、均衡推进", "国际化办学、全球视野"], answer: "A" },
+                    { q: "2025年，国家提出的"文化强国"战略目标是到（ ）年建成社会主义文化强国。", options: ["2025", "2030", "2035", "2050"], answer: "C" }
+                ],
+                multiQuestions: [
+                    { q: "2025年，新时代艺术教育的发展趋势包括（ ）", options: ["数字化艺术教育", "跨学科融合", "国际化交流", "产学研结合"], answer: ["A","B","C","D"] },
+                    { q: "2025年，高校艺术教育的主要任务包括（ ）", options: ["培养艺术专业人才", "提高学生艺术素养", "传承优秀文化", "服务社会需求"], answer: ["A","B","C","D"] },
+                    { q: "2025年，文化自信的内涵包括（ ）", options: ["对中华优秀传统文化的自信", "对革命文化的自信", "对社会主义先进文化的自信", "对中国特色社会主义文化的自信"], answer: ["A","B","C","D"] }
+                ],
+                caseStudies: [
+                    { title: "案例一：传统音乐文化传承", content: "西安音乐学院计划在2025年开展传统音乐文化传承项目，但面临资金不足、专业人才短缺、传承机制不完善等问题。", question: "问题：作为高校管理者，你将如何推进传统音乐文化传承项目，确保项目顺利实施？（10分）" },
+                    { title: "案例二：艺术教育创新", content: "2025年，某艺术院校尝试将人工智能技术应用于艺术教育，但部分教师对新技术持怀疑态度，学生也存在适应问题。", question: "问题：作为艺术院校管理者，你将如何推动艺术教育创新，促进人工智能与艺术教育的融合？（10分）" }
+                ],
+                writing: { title: "公文写作题", content: "你是西安音乐学院艺术实践中心主任，学校计划在2025年举办"中华传统音乐文化节"。请写一篇活动策划方案，600字以上。", requirement: "格式规范，内容丰富，策划合理，具有可行性。" }
+            },
+            {
+                id: 3,
+                title: "2025时事卷三：高校管理与创新发展",
+                singleQuestions: [
+                    { q: "2025年，教育部发布的《普通高等学校辅导员队伍建设规定》要求，辅导员应具备（ ）的能力。", options: ["思想政治教育", "学生管理服务", "心理健康教育", "以上都是"], answer: "D" },
+                    { q: "2025年，国家推进高校治理体系和治理能力现代化，强调要完善（ ）的现代大学制度。", options: ["党委领导、校长负责、教授治学、民主管理", "党委领导、校长负责、专家治学、社会参与", "党委领导、校长负责、教授治学、社会监督", "党委领导、校长负责、学术自治、民主管理"], answer: "A" },
+                    { q: "2025年，高校人事制度改革的重点是（ ）", options: ["实行岗位聘任制", "完善薪酬分配制度", "优化人才评价体系", "以上都是"], answer: "D" },
+                    { q: "2025年，国家提出的"高校服务乡村振兴战略"要求高校（ ）", options: ["提供智力支持", "开展技术服务", "培养基层人才", "以上都是"], answer: "D" },
+                    { q: "2025年，西安音乐学院在管理岗位招聘中，强调（ ）的能力要求。", options: ["专业管理能力", "服务意识", "创新思维", "以上都是"], answer: "D" },
+                    { q: "2025年，高校安全稳定工作的首要任务是（ ）", options: ["维护校园安全", "防范意识形态风险", "保障学生安全", "加强网络安全"], answer: "B" },
+                    { q: "2025年，国家推进"放管服"改革，对高校的管理方式从（ ）转变。", options: ["直接管理向间接管理", "微观管理向宏观管理", "过程管理向目标管理", "以上都是"], answer: "D" },
+                    { q: "2025年，高校财务管理改革的重点是（ ）", options: ["预算管理", "成本核算", "绩效评价", "以上都是"], answer: "D" },
+                    { q: "2025年，高校信息化建设的目标是（ ）", options: ["智慧校园", "数字校园", "信息校园", "智能校园"], answer: "A" },
+                    { q: "2025年，国家强调高校要加强（ ），培养具有社会责任感和创新精神的人才。", options: ["思想政治教育", "专业能力培养", "实践能力培养", "以上都是"], answer: "D" }
+                ],
+                multiQuestions: [
+                    { q: "2025年，高校管理岗位的核心能力要求包括（ ）", options: ["政治素质", "业务能力", "服务意识", "创新能力"], answer: ["A","B","C","D"] },
+                    { q: "2025年，高校学生管理的主要内容包括（ ）", options: ["思想政治教育", "日常行为管理", "心理健康教育", "就业创业指导"], answer: ["A","B","C","D"] },
+                    { q: "2025年，高校党风廉政建设的重点包括（ ）", options: ["加强制度建设", "强化监督执纪", "推进作风建设", "开展廉洁教育"], answer: ["A","B","C","D"] }
+                ],
+                caseStudies: [
+                    { title: "案例一：高校管理创新", content: "2025年，某高校推行"扁平化管理"改革，减少管理层次，提高管理效率，但在实施过程中遇到了部门协调困难、人员职责不清等问题。", question: "问题：作为高校管理者，你将如何推进管理创新，解决改革中遇到的问题？（10分）" },
+                    { title: "案例二：校园文化建设", content: "某高校计划在2025年加强校园文化建设，打造特色校园文化品牌，但面临资金不足、师生参与度不高、文化活动形式单一等问题。", question: "问题：作为高校管理者，你将如何加强校园文化建设，打造具有特色的校园文化品牌？（10分）" }
+                ],
+                writing: { title: "公文写作题", content: "你是西安音乐学院办公室主任，学校计划在2025年制定"十四五"发展规划。请结合学校实际和国家教育改革趋势，写一篇规划纲要，600字以上。", requirement: "格式规范，目标明确，措施具体，具有前瞻性和可操作性。" }
+            }
+        ];
+
+        let currentPaper = 0;
+        let userAnswers = {};
+        let examStarted = false;
+
+        function initPapers() {
+            const paperTabs = document.getElementById('paperTabs');
+            paperTabs.innerHTML = '';
+            
+            examPapers.forEach((paper, index) => {
+                const tab = document.createElement('button');
+                tab.className = 'paper-tab' + (index === currentPaper ? ' active' : '');
+                tab.textContent = paper.title;
+                tab.onclick = () => switchToPaper(index);
+                paperTabs.appendChild(tab);
+            });
+        }
+
+        function switchToPaper(index) {
+            currentPaper = index;
+            userAnswers[currentPaper] = userAnswers[currentPaper] || {};
+            
+            const paperTabs = document.getElementById('paperTabs');
+            Array.from(paperTabs.children).forEach((tab, i) => {
+                tab.className = 'paper-tab' + (i === currentPaper ? ' active' : '');
+            });
+            
+            renderExam();
+        }
+
+        function renderExam() {
+            const examContainer = document.getElementById('examContainer');
+            const paper = examPapers[currentPaper];
+            
+            let html = `
+                <div class="exam-header">
+                    <h2>${paper.title}</h2>
+                    <div class="exam-info">
+                        <span class="exam-badge">单选题：${paper.singleQuestions.length}题</span>
+                        <span class="exam-badge">多选题：${paper.multiQuestions.length}题</span>
+                        <span class="exam-badge">案例分析：${paper.caseStudies.length}题</span>
+                        <span class="exam-badge">公文写作：1题</span>
+                    </div>
+                </div>
+            `;
+
+            if (paper.singleQuestions.length > 0) {
+                html += `
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <span>一、单选题</span>
+                            <span class="section-toggle">▶</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="category-label">基础知识</div>
+                `;
+                
+                paper.singleQuestions.forEach((q, index) => {
+                    const questionId = `single_${index}`;
+                    html += `
+                        <div class="question">
+                            <div class="question-num">${index + 1}</div>
+                            <div class="question-text">${q.q}</div>
+                            <div class="options">
+                    `;
+                    
+                    q.options.forEach((option, optIndex) => {
+                        const optionLetter = String.fromCharCode(65 + optIndex);
+                        const isSelected = userAnswers[currentPaper][questionId] === optionLetter;
+                        const isCorrect = q.answer === optionLetter;
+                        const isWrong = userAnswers[currentPaper][questionId] && userAnswers[currentPaper][questionId] !== q.answer;
+                        
+                        html += `
+                                <div class="option ${isSelected ? 'selected' : ''} ${isCorrect && userAnswers[currentPaper][questionId] ? 'correct' : ''} ${isWrong ? 'wrong' : ''} ${userAnswers[currentPaper][questionId] ? 'disabled' : ''}" onclick="selectOption('${questionId}', '${optionLetter}', ${index})")">
+                                    <span class="option-letter">${optionLetter}.</span>
+                                    <span>${option}</span>
+                                </div>
+                        `;
+                    });
+                    
+                    if (userAnswers[currentPaper][questionId]) {
+                        const isCorrect = q.answer === userAnswers[currentPaper][questionId];
+                        html += `
+                            <div class="feedback ${isCorrect ? 'correct' : 'wrong'} show">
+                                ${isCorrect ? '回答正确！' : `回答错误。正确答案是：${q.answer}`}
+                            </div>
+                        `;
+                    }
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (paper.multiQuestions.length > 0) {
+                html += `
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <span>二、多选题</span>
+                            <span class="section-toggle">▶</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="category-label">综合知识</div>
+                `;
+                
+                paper.multiQuestions.forEach((q, index) => {
+                    const questionId = `multi_${index}`;
+                    html += `
+                        <div class="question">
+                            <div class="question-num">${index + 1}</div>
+                            <div class="question-text">${q.q}</div>
+                            <div class="options">
+                    `;
+                    
+                    q.options.forEach((option, optIndex) => {
+                        const optionLetter = String.fromCharCode(65 + optIndex);
+                        const isSelected = userAnswers[currentPaper][questionId] && userAnswers[currentPaper][questionId].includes(optionLetter);
+                        const isCorrect = q.answer.includes(optionLetter);
+                        
+                        html += `
+                                <div class="option ${isSelected ? 'selected' : ''} ${isCorrect && userAnswers[currentPaper][questionId] ? 'correct' : ''} ${!isCorrect && isSelected ? 'wrong' : ''} ${userAnswers[currentPaper][questionId] ? 'disabled' : ''}" onclick="selectMultiOption('${questionId}', '${optionLetter}', ${index})")">
+                                    <span class="option-letter">${optionLetter}.</span>
+                                    <span>${option}</span>
+                                </div>
+                        `;
+                    });
+                    
+                    if (userAnswers[currentPaper][questionId]) {
+                        const isCorrect = JSON.stringify(userAnswers[currentPaper][questionId].sort()) === JSON.stringify(q.answer.sort());
+                        html += `
+                            <div class="feedback ${isCorrect ? 'correct' : 'wrong'} show">
+                                ${isCorrect ? '回答正确！' : `回答错误。正确答案是：${q.answer.join(', ')}`}
+                            </div>
+                        `;
+                    }
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (paper.caseStudies.length > 0) {
+                html += `
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <span>三、案例分析题</span>
+                            <span class="section-toggle">▶</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="category-label">分析能力</div>
+                `;
+                
+                paper.caseStudies.forEach((caseStudy, index) => {
+                    const questionId = `case_${index}`;
+                    html += `
+                        <div class="question">
+                            <div class="case-box">
+                                <div class="case-title">${caseStudy.title}</div>
+                                <div class="case-content">${caseStudy.content}</div>
+                                <div class="case-question">${caseStudy.question}</div>
+                            </div>
+                            <textarea class="writing-area" placeholder="请在此处输入你的答案..." ${userAnswers[currentPaper][questionId] ? '' : ''}>${userAnswers[currentPaper][questionId] || ''}</textarea>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (paper.writing) {
+                html += `
+                    <div class="section">
+                        <div class="section-header" onclick="toggleSection(this)">
+                            <span>四、公文写作题</span>
+                            <span class="section-toggle">▶</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="category-label">写作能力</div>
+                            <div class="question">
+                                <div class="case-box">
+                                    <div class="case-title">${paper.writing.title}</div>
+                                    <div class="case-content">${paper.writing.content}</div>
+                                    <div class="case-question">${paper.writing.requirement}</div>
+                                </div>
+                                <textarea class="writing-area" placeholder="请在此处输入你的答案..." ${userAnswers[currentPaper].writing ? '' : ''}>${userAnswers[currentPaper].writing || ''}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            examContainer.innerHTML = html;
+            updateProgress();
+        }
+
+        function toggleSection(header) {
+            const section = header.parentElement;
+            section.classList.toggle('collapsed');
+        }
+
+        function selectOption(questionId, optionLetter, questionIndex) {
+            if (userAnswers[currentPaper][questionId]) return;
+            
+            userAnswers[currentPaper][questionId] = optionLetter;
+            renderExam();
+        }
+
+        function selectMultiOption(questionId, optionLetter, questionIndex) {
+            if (!userAnswers[currentPaper][questionId]) {
+                userAnswers[currentPaper][questionId] = [];
+            }
+            
+            if (userAnswers[currentPaper][questionId].includes(optionLetter)) {
+                userAnswers[currentPaper][questionId] = userAnswers[currentPaper][questionId].filter(item => item !== optionLetter);
+            } else {
+                userAnswers[currentPaper][questionId].push(optionLetter);
+            }
+            
+            renderExam();
+        }
+
+        function updateProgress() {
+            const paper = examPapers[currentPaper];
+            const totalQuestions = paper.singleQuestions.length + paper.multiQuestions.length;
+            let answeredQuestions = 0;
+            
+            for (let i = 0; i < paper.singleQuestions.length; i++) {
+                if (userAnswers[currentPaper][`single_${i}`]) {
+                    answeredQuestions++;
+                }
+            }
+            
+            for (let i = 0; i < paper.multiQuestions.length; i++) {
+                if (userAnswers[currentPaper][`multi_${i}`]) {
+                    answeredQuestions++;
+                }
+            }
+            
+            const progress = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+        }
+
+        function submitExam() {
+            const paper = examPapers[currentPaper];
+            let score = 0;
+            let totalScore = 0;
+            
+            // 单选题评分
+            paper.singleQuestions.forEach((q, index) => {
+                totalScore += 2;
+                if (userAnswers[currentPaper][`single_${index}`] === q.answer) {
+                    score += 2;
+                }
+            });
+            
+            // 多选题评分
+            paper.multiQuestions.forEach((q, index) => {
+                totalScore += 4;
+                const userAnswer = userAnswers[currentPaper][`multi_${index}`];
+                if (userAnswer && JSON.stringify(userAnswer.sort()) === JSON.stringify(q.answer.sort())) {
+                    score += 4;
+                }
+            });
+            
+            // 案例分析和写作题暂时给满分
+            paper.caseStudies.forEach(() => {
+                totalScore += 10;
+                score += 10;
+            });
+            
+            if (paper.writing) {
+                totalScore += 20;
+                score += 20;
+            }
+            
+            const accuracy = totalScore > 0 ? Math.round((score / totalScore) * 100) : 0;
+            
+            document.getElementById('resultScore').textContent = `${score}分`;
+            document.getElementById('resultDetail').textContent = `正确率 ${accuracy}%`;
+            
+            const resultIcon = document.getElementById('resultIcon');
+            if (accuracy >= 80) {
+                resultIcon.className = 'result-icon good';
+                resultIcon.textContent = '🎉';
+            } else if (accuracy >= 60) {
+                resultIcon.className = 'result-icon ok';
+                resultIcon.textContent = '👍';
+            } else {
+                resultIcon.className = 'result-icon bad';
+                resultIcon.textContent = '⚠️';
+            }
+            
+            document.getElementById('resultModal').classList.add('show');
+        }
+
+        function reviewAnswers() {
+            document.getElementById('resultModal').classList.remove('show');
+        }
+
+        function switchPaper() {
+            document.getElementById('resultModal').classList.remove('show');
+        }
+
+        function resetExam() {
+            userAnswers[currentPaper] = {};
+            renderExam();
+            document.getElementById('resultModal').classList.remove('show');
+        }
+
+        // 初始化
+        initPapers();
+        switchToPaper(0);
+    </script>
+</body>
+</html>
