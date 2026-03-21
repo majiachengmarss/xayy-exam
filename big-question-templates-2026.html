@@ -524,6 +524,7 @@
             <div class="hero-actions">
                 <a class="button" href="#case">先看案例分析</a>
                 <a class="button" href="#writing">先看公文写作</a>
+                <a class="button" href="big-question-templates-2026-memory.html">纯背诵精简版</a>
                 <button class="mode-btn" id="modeToggle" type="button">切换背诵模式</button>
             </div>
             <div class="meta-strip">
@@ -1007,6 +1008,29 @@
         const toast = document.getElementById("toast");
         const modeToggle = document.getElementById("modeToggle");
 
+        async function copyText(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                return;
+            }
+
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.setAttribute("readonly", "");
+            textarea.style.position = "fixed";
+            textarea.style.top = "-9999px";
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+
+            const successful = document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            if (!successful) {
+                throw new Error("copy failed");
+            }
+        }
+
         function showToast(message) {
             toast.textContent = message;
             toast.classList.add("show");
@@ -1025,7 +1049,7 @@
                 }
 
                 try {
-                    await navigator.clipboard.writeText(target.innerText.trim());
+                    await copyText(target.innerText.trim());
                     button.classList.add("done");
                     showToast("本段模板已复制");
                     window.setTimeout(() => button.classList.remove("done"), 1200);
