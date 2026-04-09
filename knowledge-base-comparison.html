@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub 个人知识库系统详细对比 - RAG + 知识图谱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 24px;
+            padding: 20px 0;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .section-header .arrow {
+            transition: transform 0.3s ease;
+            font-size: 20px;
+        }
+
+        .section-header.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding: 15px;
+            display: none;
+            background: #f9f9f9;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 12px;
+            min-width: 800px;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e0e0e0;
+            word-wrap: break-word;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        tr:nth-child(even):hover {
+            background: #f0f0f0;
+        }
+
+        .star {
+            color: #ffd700;
+        }
+
+        .check {
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .cross {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #ff9800;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin: 2px;
+        }
+
+        .badge-green {
+            background: #4caf50;
+            color: white;
+        }
+
+        .badge-blue {
+            background: #2196f3;
+            color: white;
+        }
+
+        .badge-orange {
+            background: #ff9800;
+            color: white;
+        }
+
+        .badge-red {
+            background: #f44336;
+            color: white;
+        }
+
+        .recommendation {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .recommendation h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .recommendation-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .recommendation-item h4 {
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
+
+        .quick-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .quick-nav button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .quick-nav button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .toc {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .toc h3 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .toc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 8px;
+        }
+
+        .toc-item {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+        }
+
+        .toc-item:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+
+            .container {
+                padding: 10px;
+                border-radius: 10px;
+            }
+
+            h1 {
+                font-size: 18px;
+                padding: 15px 0;
+            }
+
+            .subtitle {
+                font-size: 12px;
+            }
+
+            .section-header {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+
+            table {
+                font-size: 10px;
+            }
+
+            th, td {
+                padding: 8px 5px;
+            }
+
+            .quick-nav {
+                bottom: 10px;
+                right: 10px;
+            }
+
+            .quick-nav button {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+
+            .toc-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .score {
+            font-size: 16px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 12px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 30px;
+        }
+
+        .emoji {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 GitHub 个人知识库系统详细对比</h1>
+        <p class="subtitle">RAG + 知识图谱开源项目全面对比分析 | 2025年最新版</p>
+
+        <div class="toc">
+            <h3>📑 快速导航</h3>
+            <div class="toc-list">
+                <div class="toc-item" onclick="scrollToSection(0)">一、基本信息对比</div>
+                <div class="toc-item" onclick="scrollToSection(1)">二、核心功能对比</div>
+                <div class="toc-item" onclick="scrollToSection(2)">三、技术架构对比</div>
+                <div class="toc-item" onclick="scrollToSection(3)">四、LLM模型支持</div>
+                <div class="toc-item" onclick="scrollToSection(4)">五、知识图谱特性</div>
+                <div class="toc-item" onclick="scrollToSection(5)">六、RAG检索特性</div>
+                <div class="toc-item" onclick="scrollToSection(6)">七、文档处理能力</div>
+                <div class="toc-item" onclick="scrollToSection(7)">八、部署运维对比</div>
+                <div class="toc-item" onclick="scrollToSection(8)">九、易用性对比</div>
+                <div class="toc-item" onclick="scrollToSection(9)">十、扩展性对比</div>
+                <div class="toc-item" onclick="scrollToSection(10)">十一、性能对比</div>
+                <div class="toc-item" onclick="scrollToSection(11)">十二、安全权限对比</div>
+                <div class="toc-item" onclick="scrollToSection(12)">十三、成本对比</div>
+                <div class="toc-item" onclick="scrollToSection(13)">十四、适用场景对比</div>
+                <div class="toc-item" onclick="scrollToSection(14)">十五、优缺点总结</div>
+                <div class="toc-item" onclick="scrollToSection(15)">十六、快速选型决策</div>
+                <div class="toc-item" onclick="scrollToSection(16)">十七、技术选型矩阵</div>
+                <div class="toc-item" onclick="scrollToSection(17)">十八、综合评分</div>
+            </div>
+        </div>
+
+        <div class="recommendation">
+            <h3>🏆 快速推荐</h3>
+            <div class="recommendation-item">
+                <h4>🥇 综合最佳：Quivr</h4>
+                <p>平衡性好，易用性突出，社区活跃，文档完善，适合大多数场景</p>
+            </div>
+            <div class="recommendation-item">
+                <h4>🥈 知识图谱最强：Yuxi-Know</h4>
+                <p>Neo4j专业图谱，可视化强大，适合需要复杂关系推理</p>
+            </div>
+            <div class="recommendation-item">
+                <h4>🥉 企业级推荐：RAGFlow</h4>
+                <p>深度文档理解，高准确性，企业功能完整</p>
+            </div>
+            <div class="recommendation-item">
+                <h4>🌟 快速上手：MaxKB</h4>
+                <p>最易用，非技术友好，开箱即用</p>
+            </div>
+        </div>
+
+        <!-- 一、基本信息对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>一、基本信息对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>项目名称</th>
+                                <th>GitHub Stars</th>
+                                <th>开发团队</th>
+                                <th>开源协议</th>
+                                <th>项目活跃度</th>
+                                <th>文档质量</th>
+                                <th>社区支持</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>LightRAG</strong></td>
+                                <td><span class="badge badge-blue">29k+</span></td>
+                                <td>香港大学DS团队</td>
+                                <td>MIT License</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quivr</strong></td>
+                                <td><span class="badge badge-blue">32k+</span></td>
+                                <td>QuivrHQ</td>
+                                <td>Apache 2.0</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>RAGFlow</strong></td>
+                                <td><span class="badge badge-green">59.4k+</span></td>
+                                <td>infiniflow</td>
+                                <td>Apache 2.0</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Yuxi-Know</strong></td>
+                                <td><span class="badge badge-orange">4k+</span></td>
+                                <td>xerrors</td>
+                                <td>MIT License</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FastGPT</strong></td>
+                                <td><span class="badge badge-blue">20k+</span></td>
+                                <td>Lab</td>
+                                <td>Apache 2.0</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>KAG (OpenSPG)</strong></td>
+                                <td><span class="badge badge-orange">8k+</span></td>
+                                <td>蚂蚁集团</td>
+                                <td>Apache 2.0</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MaxKB</strong></td>
+                                <td><span class="badge badge-blue">15k+</span></td>
+                                <td>飞致云</td>
+                                <td>GPL 3.0</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 二、核心功能对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>二、核心功能对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>功能特性</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>RAG检索</strong></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>知识图谱</strong></td>
+                                <td><span class="check">✅ 内置</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ Neo4j专业</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ OpenSPG强大</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>图谱可视化</strong></td>
+                                <td><span class="check">✅ 多种布局</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="warning">⚠️ 简单</span></td>
+                                <td><span class="check">✅ 完整可视化</span></td>
+                                <td><span class="warning">⚠️ 简单</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="warning">⚠️ 简单</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>实体关系抽取</strong></td>
+                                <td><span class="check">✅ LLM自动</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 自动抽取</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 强大</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>多轮对话</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>多模态支持</strong></td>
+                                <td><span class="check">✅ RAG-Anything</span></td>
+                                <td><span class="check">✅ 图片</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>联网搜索</strong></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 内置</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 内置</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>工具调用</strong></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 完整支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>智能体扩展</strong></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 开放接口</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>引用追溯</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 强大</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 三、技术架构对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>三、技术架构对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>技术栈</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>后端语言</strong></td>
+                                <td>Python</td>
+                                <td>Python</td>
+                                <td>Python</td>
+                                <td>Python</td>
+                                <td>Node.js/Python</td>
+                                <td>Python</td>
+                                <td>Python</td>
+                            </tr>
+                            <tr>
+                                <td><strong>前端框架</strong></td>
+                                <td>Streamlit/Gradio</td>
+                                <td>React/Next.js</td>
+                                <td>React</td>
+                                <td>Vue.js</td>
+                                <td>React</td>
+                                <td>React</td>
+                                <td>Vue.js</td>
+                            </tr>
+                            <tr>
+                                <td><strong>后端框架</strong></td>
+                                <td>FastAPI</td>
+                                <td>FastAPI</td>
+                                <td>Flask</td>
+                                <td>FastAPI/Flask</td>
+                                <td>Node.js</td>
+                                <td>Flask</td>
+                                <td>Django</td>
+                            </tr>
+                            <tr>
+                                <td><strong>主要依赖</strong></td>
+                                <td>LiteRAG</td>
+                                <td>Megaparse</td>
+                                <td>深度学习</td>
+                                <td>LangGraph</td>
+                                <td>自研</td>
+                                <td>OpenSPG</td>
+                                <td>自研</td>
+                            </tr>
+                            <tr>
+                                <td><strong>向量数据库</strong></td>
+                                <td>多种可选</td>
+                                <td>PGVector/Faiss</td>
+                                <td>自研</td>
+                                <td>Milvus</td>
+                                <td>多种可选</td>
+                                <td>多种可选</td>
+                                <td>多种可选</td>
+                            </tr>
+                            <tr>
+                                <td><strong>图数据库</strong></td>
+                                <td><span class="check">内置</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">Neo4j</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">OpenSPG</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>关系数据库</strong></td>
+                                <td>SQLite/PostgreSQL</td>
+                                <td>PostgreSQL</td>
+                                <td>PostgreSQL</td>
+                                <td>PostgreSQL</td>
+                                <td>MongoDB</td>
+                                <td>MySQL</td>
+                                <td>PostgreSQL</td>
+                            </tr>
+                            <tr>
+                                <td><strong>缓存系统</strong></td>
+                                <td>Redis可选</td>
+                                <td>Redis</td>
+                                <td>Redis</td>
+                                <td>Redis</td>
+                                <td>Redis</td>
+                                <td>Redis</td>
+                                <td>Redis</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 四、LLM模型支持对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>四、LLM模型支持对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>LLM支持</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>OpenAI GPT</strong></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Claude</strong></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>DeepSeek</strong></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>智谱GLM</strong></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Llama系列</strong></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>本地模型(Ollama)</strong></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>vLLM部署</strong></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>自定义端点</strong></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                                <td><span class="check">✅</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>推理模型(R1)</strong></td>
+                                <td><span class="warning">⚠️ 支持</span></td>
+                                <td><span class="warning">⚠️ 支持</span></td>
+                                <td><span class="warning">⚠️ 支持</span></td>
+                                <td><span class="check">✅ 完整支持</span></td>
+                                <td><span class="warning">⚠️ 支持</span></td>
+                                <td><span class="warning">⚠️ 支持</span></td>
+                                <td><span class="warning">⚠️ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>模型切换</strong></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 五、知识图谱特性对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>五、知识图谱特性对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>图谱特性</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>图谱类型</strong></td>
+                                <td>内置轻量级</td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td>基础三元组</td>
+                                <td><span class="highlight">Neo4j专业</span></td>
+                                <td>基础三元组</td>
+                                <td><span class="highlight">OpenSPG企业级</span></td>
+                                <td>基础三元组</td>
+                            </tr>
+                            <tr>
+                                <td><strong>实体抽取方式</strong></td>
+                                <td>LLM自动</td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td>规则+LLM</td>
+                                <td>LLM自动</td>
+                                <td>规则基础</td>
+                                <td>LLM+规则</td>
+                                <td>规则基础</td>
+                            </tr>
+                            <tr>
+                                <td><strong>关系抽取</strong></td>
+                                <td>LLM自动</td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td>规则+LLM</td>
+                                <td>LLM自动</td>
+                                <td>规则基础</td>
+                                <td>LLM+规则</td>
+                                <td>规则基础</td>
+                            </tr>
+                            <tr>
+                                <td><strong>图谱可视化</strong></td>
+                                <td><span class="check">✅ 多种布局</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="warning">⚠️ 简单</span></td>
+                                <td><span class="check">✅ D3.js完整</span></td>
+                                <td><span class="warning">⚠️ 简单</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="warning">⚠️ 简单</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>图谱编辑</strong></td>
+                                <td><span class="check">✅ CRUD完整</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>子图查询</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ Cypher强大</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 强大</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>路径推理</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 强大</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 逻辑推理</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>图谱导入导出</strong></td>
+                                <td>JSON/GraphML</td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td>JSONL/CSV</td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td>多格式</td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>图谱规模</strong></td>
+                                <td>中型(百万级)</td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td>小型</td>
+                                <td><span class="highlight">大型(亿级)</span></td>
+                                <td>小型</td>
+                                <td><span class="highlight">大型(亿级)</span></td>
+                                <td>小型</td>
+                            </tr>
+                            <tr>
+                                <td><strong>图谱性能</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td><span class="cross">❌</span></td>
+                                <td>⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 六、RAG检索特性对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>六、RAG检索特性对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>RAG特性</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>检索方式</strong></td>
+                                <td>向量+图谱混合</td>
+                                <td>向量检索</td>
+                                <td>向量+关键词</td>
+                                <td>向量+图谱+关键词</td>
+                                <td>向量+关键词</td>
+                                <td>向量+图谱推理</td>
+                                <td>向量+关键词</td>
+                            </tr>
+                            <tr>
+                                <td><strong>向量数据库</strong></td>
+                                <td>Chroma/Milvus等</td>
+                                <td>PGVector/Faiss</td>
+                                <td>自研</td>
+                                <td>Milvus</td>
+                                <td>多种可选</td>
+                                <td>多种可选</td>
+                                <td>多种可选</td>
+                            </tr>
+                            <tr>
+                                <td><strong>文本分割策略</strong></td>
+                                <td>多粒度智能</td>
+                                <td>固定长度</td>
+                                <td>深度理解</td>
+                                <td>多粒度</td>
+                                <td>智能分割</td>
+                                <td>语义分割</td>
+                                <td>固定长度</td>
+                            </tr>
+                            <tr>
+                                <td><strong>混合检索</strong></td>
+                                <td><span class="check">✅ 向量+图谱</span></td>
+                                <td><span class="warning">⚠️ 向量+关键词</span></td>
+                                <td><span class="check">✅ 向量+关键词</span></td>
+                                <td><span class="check">✅ 向量+图谱+关键词</span></td>
+                                <td><span class="check">✅ 向量+关键词</span></td>
+                                <td><span class="check">✅ 向量+图谱</span></td>
+                                <td><span class="check">✅ 向量+关键词</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>重排序</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>检索准确率</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>检索速度</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>增量索引</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>实时更新</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 批量</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 批量</span></td>
+                                <td><span class="warning">⚠️ 批量</span></td>
+                                <td><span class="warning">⚠️ 批量</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 七、文档处理能力对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>七、文档处理能力对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>文档处理</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>PDF</strong></td>
+                                <td><span class="check">✅ 强大</span></td>
+                                <td><span class="check">✅ 强大</span></td>
+                                <td><span class="check">✅ 深度理解</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Word/Docx</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 深度理解</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Excel/表格</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 深度理解</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Markdown</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>图片</strong></td>
+                                <td><span class="check">✅ OCR+理解</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ OCR</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>代码文件</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>PPT</strong></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>音频</strong></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 转录</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>网页</strong></td>
+                                <td><span class="check">✅ 抓取</span></td>
+                                <td><span class="check">✅ 抓取</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 抓取</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>OCR识别</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 强大</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>表格识别</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 强大</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>公式识别</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 强大</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 八、部署运维对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>八、部署运维对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>部署特性</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>部署难度</strong></td>
+                                <td>⭐⭐⭐ 中等</td>
+                                <td>⭐⭐ 简单</td>
+                                <td>⭐⭐⭐ 中等</td>
+                                <td>⭐⭐⭐⭐ 较难</td>
+                                <td>⭐⭐ 简单</td>
+                                <td>⭐⭐⭐⭐ 较难</td>
+                                <td>⭐⭐ 简单</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Docker支持</strong></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Kubernetes</strong></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>一键部署</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 需配置</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 需配置</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>本地部署</strong></td>
+                                <td><span class="check">✅ 简单</span></td>
+                                <td><span class="check">✅ 简单</span></td>
+                                <td><span class="check">✅ 简单</span></td>
+                                <td><span class="warning">⚠️ 需Neo4j</span></td>
+                                <td><span class="check">✅ 简单</span></td>
+                                <td><span class="warning">⚠️ 复杂</span></td>
+                                <td><span class="check">✅ 简单</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>最低内存</strong></td>
+                                <td>4GB</td>
+                                <td>4GB</td>
+                                <td>8GB</td>
+                                <td>8GB</td>
+                                <td>4GB</td>
+                                <td>16GB</td>
+                                <td>4GB</td>
+                            </tr>
+                            <tr>
+                                <td><strong>推荐内存</strong></td>
+                                <td>8GB</td>
+                                <td>8GB</td>
+                                <td>16GB</td>
+                                <td>16GB</td>
+                                <td>8GB</td>
+                                <td>32GB</td>
+                                <td>8GB</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CPU核心</strong></td>
+                                <td>2核</td>
+                                <td>2核</td>
+                                <td>4核</td>
+                                <td>4核</td>
+                                <td>2核</td>
+                                <td>8核</td>
+                                <td>2核</td>
+                            </tr>
+                            <tr>
+                                <td><strong>存储空间</strong></td>
+                                <td>10GB+</td>
+                                <td>10GB+</td>
+                                <td>20GB+</td>
+                                <td>20GB+</td>
+                                <td>10GB+</td>
+                                <td>50GB+</td>
+                                <td>10GB+</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GPU需求</strong></td>
+                                <td><span class="warning">⚠️ 可选</span></td>
+                                <td><span class="warning">⚠️ 可选</span></td>
+                                <td><span class="check">⚠️ 推荐</span></td>
+                                <td><span class="warning">⚠️ 可选</span></td>
+                                <td><span class="warning">⚠️ 可选</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                                <td><span class="warning">⚠️ 可选</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>配置复杂度</strong></td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>监控告警</strong></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>备份恢复</strong></td>
+                                <td><span class="warning">⚠️ 手动</span></td>
+                                <td><span class="check">✅ 自动</span></td>
+                                <td><span class="warning">⚠️ 手动</span></td>
+                                <td><span class="check">✅ Neo4j工具</span></td>
+                                <td><span class="check">✅ 自动</span></td>
+                                <td><span class="warning">⚠️ 手动</span></td>
+                                <td><span class="check">✅ 自动</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 九、易用性与用户体验对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>九、易用性与用户体验对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>易用性</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>学习曲线</strong></td>
+                                <td>⭐⭐⭐ 中等</td>
+                                <td>⭐⭐ 简单</td>
+                                <td>⭐⭐⭐ 中等</td>
+                                <td>⭐⭐⭐⭐ 较难</td>
+                                <td>⭐⭐ 简单</td>
+                                <td>⭐⭐⭐⭐⭐ 困难</td>
+                                <td>⭐ 简单</td>
+                            </tr>
+                            <tr>
+                                <td><strong>UI界面</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>交互体验</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>文档完整性</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>中文支持</strong></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>新手友好</strong></td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>API文档</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>示例代码</strong></td>
+                                <td><span class="check">✅ 丰富</span></td>
+                                <td><span class="check">✅ 丰富</span></td>
+                                <td><span class="check">✅ 丰富</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 丰富</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 丰富</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>视频教程</strong></td>
+                                <td><span class="warning">⚠️ 社区</span></td>
+                                <td><span class="check">✅ 官方</span></td>
+                                <td><span class="warning">⚠️ 社区</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 官方</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 官方</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>社区活跃度</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>问题响应</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 十、扩展性对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>十、扩展性对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>扩展性</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>插件系统</strong></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 开放</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>API接口</strong></td>
+                                <td><span class="check">✅ RESTful</span></td>
+                                <td><span class="check">✅ RESTful+GraphQL</span></td>
+                                <td><span class="check">✅ RESTful</span></td>
+                                <td><span class="check">✅ RESTful</span></td>
+                                <td><span class="check">✅ RESTful</span></td>
+                                <td><span class="check">✅ RESTful</span></td>
+                                <td><span class="check">✅ RESTful</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Webhook</strong></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>自定义工具</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>自定义模型</strong></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                                <td><span class="check">✅ 灵活</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>自定义流程</strong></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ LangGraph</span></td>
+                                <td><span class="check">✅ 工作流</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 工作流</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>二次开发</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>代码质量</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 十一、性能对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>十一、性能对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>性能指标</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>索引速度</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>查询速度</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>并发能力</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>内存占用</strong></td>
+                                <td>⭐⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐ 高</td>
+                                <td>⭐⭐⭐ 高</td>
+                                <td>⭐⭐⭐⭐ 中</td>
+                                <td>⭐⭐ 很高</td>
+                                <td>⭐⭐⭐⭐ 中</td>
+                            </tr>
+                            <tr>
+                                <td><strong>响应延迟</strong></td>
+                                <td>< 1s</td>
+                                <td>1-2s</td>
+                                <td>1-3s</td>
+                                <td>1-2s</td>
+                                <td>< 1s</td>
+                                <td>2-5s</td>
+                                <td>1-2s</td>
+                            </tr>
+                            <tr>
+                                <td><strong>文档处理速度</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>大规模数据</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>稳定性</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 十二、安全权限对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>十二、安全权限对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>安全特性</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>用户认证</strong></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>权限管理</strong></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ RBAC</span></td>
+                                <td><span class="check">✅ RBAC</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ RBAC</span></td>
+                                <td><span class="check">✅ RBAC</span></td>
+                                <td><span class="check">✅ RBAC</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>数据加密</strong></td>
+                                <td><span class="warning">⚠️ 可选</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 可选</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>API密钥管理</strong></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>审计日志</strong></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                                <td><span class="warning">⚠️ 基础</span></td>
+                                <td><span class="check">✅ 完整</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>知识库隔离</strong></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>SSO单点登录</strong></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="cross">❌ 无</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                                <td><span class="warning">⚠️ 可扩展</span></td>
+                                <td><span class="check">✅ 支持</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>数据备份</strong></td>
+                                <td><span class="warning">⚠️ 手动</span></td>
+                                <td><span class="check">✅ 自动</span></td>
+                                <td><span class="warning">⚠️ 手动</span></td>
+                                <td><span class="check">✅ Neo4j工具</span></td>
+                                <td><span class="check">✅ 自动</span></td>
+                                <td><span class="warning">⚠️ 手动</span></td>
+                                <td><span class="check">✅ 自动</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 十三、成本对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>十三、成本对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>成本因素</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>部署成本</strong></td>
+                                <td>⭐⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐⭐ 中低</td>
+                                <td>⭐⭐ 高</td>
+                                <td>⭐⭐⭐⭐ 中低</td>
+                            </tr>
+                            <tr>
+                                <td><strong>运维成本</strong></td>
+                                <td>⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐ 高</td>
+                                <td>⭐⭐⭐⭐ 低</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LLM调用成本</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>⭐⭐⭐</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>存储成本</strong></td>
+                                <td>⭐⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐⭐ 中</td>
+                                <td>⭐⭐ 高</td>
+                                <td>⭐⭐⭐⭐ 中</td>
+                            </tr>
+                            <tr>
+                                <td><strong>人力成本</strong></td>
+                                <td>⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐⭐⭐⭐ 很低</td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐ 高</td>
+                                <td>⭐⭐⭐⭐⭐ 很低</td>
+                            </tr>
+                            <tr>
+                                <td><strong>学习成本</strong></td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐⭐ 中</td>
+                                <td>⭐⭐⭐⭐ 低</td>
+                                <td>⭐⭐ 高</td>
+                                <td>⭐⭐⭐⭐⭐ 很低</td>
+                            </tr>
+                            <tr>
+                                <td><strong>适合个人</strong></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                                <td><span class="warning">⚠️ 中等</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                                <td><span class="cross">❌ 不推荐</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>适合企业</strong></td>
+                                <td><span class="warning">⚠️ 中小企业</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                                <td><span class="check">✅ 大企业</span></td>
+                                <td><span class="check">✅ 推荐</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 十四、适用场景对比 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>十四、适用场景对比</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>应用场景</th>
+                                <th>LightRAG</th>
+                                <th>Quivr</th>
+                                <th>RAGFlow</th>
+                                <th>Yuxi-Know</th>
+                                <th>FastGPT</th>
+                                <th>KAG</th>
+                                <th>MaxKB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>个人知识库</strong></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="warning">⚠️ 一般</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>企业文档管理</strong></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>学术研究</strong></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="warning">⚠️ 一般</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>客服问答</strong></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>知识图谱构建</strong></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="cross">❌ 不适合</span></td>
+                                <td><span class="warning">⚠️ 一般</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="warning">⚠️ 一般</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="warning">⚠️ 一般</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>代码知识库</strong></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="warning">⚠️ 一般</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>多语言支持</strong></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>移动端访问</strong></td>
+                                <td><span class="warning">⚠️ 一般</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="check">✅ 良好</span></td>
+                                <td><span class="warning">⚠️ 一般</span></td>
+                                <td><span class="check">✅ 优秀</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 十五、优缺点总结 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>十五、优缺点总结</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>主要优点</th>
+                                <th>主要缺点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>LightRAG</strong></td>
+                                <td>
+                                    • 轻量高效，资源占用少<br>
+                                    • 知识图谱内置，无需额外依赖<br>
+                                    • 检索准确率高<br>
+                                    • 支持多模态<br>
+                                    • 学术背景强
+                                </td>
+                                <td>
+                                    • 企业功能较弱<br>
+                                    • 权限管理缺失<br>
+                                    • UI相对简单<br>
+                                    • 文档处理能力一般
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quivr</strong></td>
+                                <td>
+                                    • 易用性最佳<br>
+                                    • 社区最活跃<br>
+                                    • 文档完善<br>
+                                    • 多模态支持好<br>
+                                    • 企业功能完整
+                                </td>
+                                <td>
+                                    • 知识图谱功能弱<br>
+                                    • 配置项较多<br>
+                                    • 部署相对复杂
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>RAGFlow</strong></td>
+                                <td>
+                                    • 文档理解深度最强<br>
+                                    • 检索准确率极高<br>
+                                    • 企业级功能完整<br>
+                                    • 开源协议友好<br>
+                                    • Stars最多
+                                </td>
+                                <td>
+                                    • 资源占用较高<br>
+                                    • 知识图谱基础<br>
+                                    • 部署配置复杂<br>
+                                    • 学习曲线中等
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Yuxi-Know</strong></td>
+                                <td>
+                                    • Neo4j专业图谱<br>
+                                    • 可视化强大<br>
+                                    • 支持复杂推理<br>
+                                    • 工具调用完整<br>
+                                    • LangGraph架构
+                                </td>
+                                <td>
+                                    • 需要Neo4j依赖<br>
+                                    • 社区规模小<br>
+                                    • 文档不够完善<br>
+                                    • 部署复杂度高
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>FastGPT</strong></td>
+                                <td>
+                                    • 开箱即用<br>
+                                    • 性能优秀<br>
+                                    • 企业功能完整<br>
+                                    • 中文支持好<br>
+                                    • 工作流灵活
+                                </td>
+                                <td>
+                                    • 知识图谱基础<br>
+                                    • 多模态支持一般<br>
+                                    • 部分高级功能收费
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>KAG (OpenSPG)</strong></td>
+                                <td>
+                                    • 蚂蚁集团背书<br>
+                                    • 图谱能力最强<br>
+                                    • 企业级架构<br>
+                                    • 逻辑推理强大<br>
+                                    • 适合大规模
+                                </td>
+                                <td>
+                                    • 学习曲线陡峭<br>
+                                    • 资源需求高<br>
+                                    • 文档不够完善<br>
+                                    • 个人使用成本高
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>MaxKB</strong></td>
+                                <td>
+                                    • 最易上手<br>
+                                    • 非技术友好<br>
+                                    • 界面美观<br>
+                                    • 部署简单<br>
+                                    • 成本最低
+                                </td>
+                                <td>
+                                    • 知识图谱基础<br>
+                                    • 扩展性一般<br>
+                                    • 高级功能少<br>
+                                    • 社区规模中等
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 十六、快速选型决策 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>十六、快速选型决策</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>如果你需要...</th>
+                                <th>推荐方案</th>
+                                <th>理由</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>快速上手，零基础</strong></td>
+                                <td><span class="badge badge-green">MaxKB</span></td>
+                                <td>最简单易用，非技术友好，开箱即用</td>
+                            </tr>
+                            <tr>
+                                <td><strong>个人知识管理</strong></td>
+                                <td><span class="badge badge-blue">Quivr / LightRAG</span></td>
+                                <td>易用性好，资源占用低，功能全面</td>
+                            </tr>
+                            <tr>
+                                <td><strong>企业文档问答</strong></td>
+                                <td><span class="badge badge-blue">RAGFlow / FastGPT</span></td>
+                                <td>文档理解强，企业功能完整，准确率高</td>
+                            </tr>
+                            <tr>
+                                <td><strong>知识图谱构建</strong></td>
+                                <td><span class="badge badge-orange">Yuxi-Know / KAG</span></td>
+                                <td>专业图谱能力，可视化强，推理能力强</td>
+                            </tr>
+                            <tr>
+                                <td><strong>学术研究</strong></td>
+                                <td><span class="badge badge-blue">LightRAG / Yuxi-Know</span></td>
+                                <td>学术背景强，图谱可视化，推理能力</td>
+                            </tr>
+                            <tr>
+                                <td><strong>资源受限环境</strong></td>
+                                <td><span class="badge badge-green">LightRAG / MaxKB</span></td>
+                                <td>轻量级，内存占用低，部署简单</td>
+                            </tr>
+                            <tr>
+                                <td><strong>大规模部署</strong></td>
+                                <td><span class="badge badge-orange">KAG / RAGFlow</span></td>
+                                <td>企业级架构，支持大规模，稳定性好</td>
+                            </tr>
+                            <tr>
+                                <td><strong>多模态内容</strong></td>
+                                <td><span class="badge badge-blue">Quivr / LightRAG</span></td>
+                                <td>多模态支持好，图片音频处理能力强</td>
+                            </tr>
+                            <tr>
+                                <td><strong>二次开发</strong></td>
+                                <td><span class="badge badge-blue">Quivr / FastGPT</span></td>
+                                <td>代码质量高，文档完善，社区活跃</td>
+                            </tr>
+                            <tr>
+                                <td><strong>最低成本</strong></td>
+                                <td><span class="badge badge-green">MaxKB / LightRAG</span></td>
+                                <td>资源需求低，运维简单，人力成本低</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 十七、技术选型矩阵 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>十七、技术选型矩阵</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>维度</th>
+                                <th>优先级</th>
+                                <th>推荐选择</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>易用性优先</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>MaxKB > Quivr > FastGPT > RAGFlow > LightRAG > Yuxi-Know > KAG</td>
+                            </tr>
+                            <tr>
+                                <td><strong>性能优先</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>LightRAG > FastGPT > Quivr > RAGFlow > Yuxi-Know > MaxKB > KAG</td>
+                            </tr>
+                            <tr>
+                                <td><strong>知识图谱优先</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>KAG > Yuxi-Know > LightRAG > RAGFlow > FastGPT > MaxKB > Quivr</td>
+                            </tr>
+                            <tr>
+                                <td><strong>文档理解优先</strong></td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                                <td>RAGFlow > Quivr > LightRAG > FastGPT > Yuxi-Know > KAG > MaxKB</td>
+                            </tr>
+                            <tr>
+                                <td><strong>企业功能优先</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>RAGFlow > FastGPT > Quivr > MaxKB > KAG > Yuxi-Know > LightRAG</td>
+                            </tr>
+                            <tr>
+                                <td><strong>社区活跃度优先</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>Quivr > RAGFlow > FastGPT > LightRAG > MaxKB > Yuxi-Know > KAG</td>
+                            </tr>
+                            <tr>
+                                <td><strong>成本优先</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>MaxKB > LightRAG > FastGPT > Quivr > RAGFlow > Yuxi-Know > KAG</td>
+                            </tr>
+                            <tr>
+                                <td><strong>扩展性优先</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>Quivr > FastGPT > Yuxi-Know > LightRAG > RAGFlow > MaxKB > KAG</td>
+                            </tr>
+                            <tr>
+                                <td><strong>稳定性优先</strong></td>
+                                <td>⭐⭐⭐⭐</td>
+                                <td>Quivr > FastGPT > MaxKB > RAGFlow > LightRAG > Yuxi-Know > KAG</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 十八、综合评分 -->
+        <div class="section">
+            <div class="section-header" onclick="toggleSection(this)">
+                <span>十八、综合评分</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>功能完整度</th>
+                                <th>易用性</th>
+                                <th>性能</th>
+                                <th>社区活跃度</th>
+                                <th>文档质量</th>
+                                <th>企业支持</th>
+                                <th>综合得分</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>LightRAG</strong></td>
+                                <td><span class="score">8.5</span></td>
+                                <td><span class="score">7.5</span></td>
+                                <td><span class="score">9.5</span></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score">7.5</span></td>
+                                <td><span class="score">6.0</span></td>
+                                <td><span class="score badge badge-blue">7.8</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quivr</strong></td>
+                                <td><span class="score">9.0</span></td>
+                                <td><span class="score">9.5</span></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score">9.5</span></td>
+                                <td><span class="score">9.0</span></td>
+                                <td><span class="score">8.5</span></td>
+                                <td><span class="score badge badge-green">8.9</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>RAGFlow</strong></td>
+                                <td><span class="score">9.0</span></td>
+                                <td><span class="score">7.5</span></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score">8.5</span></td>
+                                <td><span class="score">7.5</span></td>
+                                <td><span class="score">9.0</span></td>
+                                <td><span class="score badge badge-blue">8.3</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Yuxi-Know</strong></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score">6.5</span></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score">6.0</span></td>
+                                <td><span class="score">6.0</span></td>
+                                <td><span class="score">7.0</span></td>
+                                <td><span class="score badge badge-orange">6.9</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>FastGPT</strong></td>
+                                <td><span class="score">8.5</span></td>
+                                <td><span class="score">8.5</span></td>
+                                <td><span class="score">9.0</span></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score">8.5</span></td>
+                                <td><span class="score badge badge-blue">8.4</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>KAG</strong></td>
+                                <td><span class="score">9.0</span></td>
+                                <td><span class="score">5.5</span></td>
+                                <td><span class="score">7.5</span></td>
+                                <td><span class="score">6.5</span></td>
+                                <td><span class="score">6.0</span></td>
+                                <td><span class="score">9.0</span></td>
+                                <td><span class="score badge badge-orange">7.3</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>MaxKB</strong></td>
+                                <td><span class="score">7.5</span></td>
+                                <td><span class="score">9.5</span></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score">7.5</span></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score">8.0</span></td>
+                                <td><span class="score badge badge-blue">8.1</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 8px;">
+                    <h4 style="color: #667eea; margin-bottom: 10px;">💡 评分说明</h4>
+                    <p style="font-size: 13px; line-height: 1.8;">
+                        • <strong>功能完整度</strong>：核心功能、扩展功能、企业功能的完整性<br>
+                        • <strong>易用性</strong>：学习曲线、UI体验、文档质量、新手友好度<br>
+                        • <strong>性能</strong>：检索速度、索引速度、并发能力、资源占用<br>
+                        • <strong>社区活跃度</strong>：GitHub Stars、Issue响应、PR活跃度、社区规模<br>
+                        • <strong>文档质量</strong>：文档完整性、API文档、示例代码、视频教程<br>
+                        • <strong>企业支持</strong>：权限管理、安全特性、部署运维、商业支持
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📊 本对比报告基于2025年4月最新数据整理</p>
+            <p>🔗 数据来源：GitHub官方仓库、项目文档、社区反馈</p>
+            <p>📝 最后更新：2025年4月9日</p>
+        </div>
+    </div>
+
+    <div class="quick-nav">
+        <button onclick="scrollToTop()">🔝 返回顶部</button>
+    </div>
+
+    <script>
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const isActive = content.classList.contains('active');
+            
+            // 关闭所有其他section
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.section-header').forEach(h => {
+                h.classList.remove('active');
+            });
+            
+            // 切换当前section
+            if (!isActive) {
+                content.classList.add('active');
+                header.classList.add('active');
+            }
+        }
+
+        function scrollToSection(index) {
+            const sections = document.querySelectorAll('.section');
+            if (sections[index]) {
+                sections[index].scrollIntoView({ behavior: 'smooth' });
+                // 自动展开该section
+                const header = sections[index].querySelector('.section-header');
+                const content = sections[index].querySelector('.section-content');
+                content.classList.add('active');
+                header.classList.add('active');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 页面加载时默认展开第一个section
+        window.addEventListener('load', function() {
+            const firstSection = document.querySelector('.section-content');
+            const firstHeader = document.querySelector('.section-header');
+            if (firstSection && firstHeader) {
+                firstSection.classList.add('active');
+                firstHeader.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>�
